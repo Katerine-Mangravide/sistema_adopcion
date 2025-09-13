@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.shortcuts import redirect
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('usuarios/', include('usuarios.urls')),
+    path('', lambda request: redirect('usuarios:home')),
 
     # 👇 Esto agrega las rutas de reset sin namespace, así Django las encuentra en el mail
     path('password-reset/',

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -7,6 +8,8 @@ from .forms import RegistroForm, PerfilForm
 from .models import Adoptante
 from django.http import HttpResponse, JsonResponse
 import json, csv
+from mascotas.models import Mascota
+
 
 def register_adoptante(request):
     if request.method == "POST":
@@ -35,9 +38,39 @@ def logout_adoptante(request):
     messages.success(request, "Sesión cerrada.")
     return redirect('usuarios:login')
 
-@login_required
 def home(request):
-    return render(request, 'usuarios/home.html')
+    qs = Mascota.objects.filter(adoptada=False)  # solo no adoptadas
+
+    q = request.GET.get('q', '').strip()
+    especie = request.GET.get('especie', '').strip()
+    raza = request.GET.get('raza', '').strip()
+    ciudad = request.GET.get('ciudad', '').strip()
+
+    # Buscar por nombre o raza
+    if q:
+        qs = qs.filter(Q(nombre__icontains=q) | Q(raza__icontains=q))
+
+    if especie:
+        qs = qs.filter(especie__iexact=especie)
+    if raza:
+        qs = qs.filter(raza__iexact=raza)
+    if ciudad:
+        qs = qs.filter(refugio__direccion__icontains=ciudad)
+
+    # Opciones dinámicas
+    especies = Mascota.objects.values_list('especie', flat=True).distinct()
+    razas = Mascota.objects.values_list('raza', flat=True).exclude(raza__exact='').distinct()
+    ciudades = (Mascota.objects.values_list('refugio__direccion', flat=True)
+                .exclude(refugio__direccion__exact='')
+                .distinct())
+
+    context = {
+        'mascotas': qs,
+        'especies': especies,
+        'razas': razas,
+        'ciudades': ciudades,
+    }
+    return render(request, 'usuarios/home.html', context)
 
 @login_required
 def ver_perfil(request):

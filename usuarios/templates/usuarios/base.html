@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}AdoptaFácil{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <a href="{% url 'usuarios:home' %}">🐾 <strong>AdoptaFácil</strong></a>
+      </div>
+      <nav>
+        <ul class="nav-list">
+            <li><a href="{% url 'usuarios:home' %}">Inicio</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'usuarios:perfil' %}">Mi Perfil</a></li>
+            <li><a href="{% url 'usuarios:logout' %}">Cerrar sesión</a></li>
+            {% else %}
+            <li><a href="{% url 'usuarios:login' %}">Iniciar sesión</a></li>
+            <li><a href="{% url 'usuarios:register' %}">Registrarse</a></li>
+            {% endif %}
+            </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 AdoptaFácil — Proyecto Académico</p>
+    </div>
+  </footer>
+</body>
+</html>

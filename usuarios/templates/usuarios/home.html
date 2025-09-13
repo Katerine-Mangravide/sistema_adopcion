@@ -1,2 +1,54 @@
-<h1>Bienvenido a la pagina principal</h1>
-<a href="{% url 'usuarios:logout' %}">Cerrar sesión</a>
+{% extends 'usuarios/base.html' %}
+{% load static %}
+{% block title %}Catálogo - AdoptaFácil{% endblock %}
+{% block content %}
+
+<h2>Catálogo de Mascotas 🐾</h2>
+
+<form method="get" class="busqueda">
+  <input type="text" name="q" placeholder="Buscar por nombre o raza" value="{{ request.GET.q|default:'' }}">
+  <select name="especie">
+    <option value="">Especie</option>
+    {% for e in especies %}
+      <option value="{{ e }}" {% if request.GET.especie == e %}selected{% endif %}>{{ e }}</option>
+    {% endfor %}
+  </select>
+  <select name="raza">
+    <option value="">Raza</option>
+    {% for r in razas %}
+      <option value="{{ r }}" {% if request.GET.raza == r %}selected{% endif %}>{{ r }}</option>
+    {% endfor %}
+  </select>
+  <select name="ciudad">
+    <option value="">Ciudad</option>
+    {% for c in ciudades %}
+      <option value="{{ c }}" {% if request.GET.ciudad == c %}selected{% endif %}>{{ c }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn" type="submit">Filtrar</button>
+</form>
+
+<div class="catalogo">
+  {% for mascota in mascotas %}
+    <div class="card">
+      {% if mascota.imagen %}
+        <img src="{{ mascota.imagen.url }}" alt="{{ mascota.nombre }}">
+      {% else %}
+        <img src="https://picsum.photos/400/250?random={{ forloop.counter }}" alt="Mascota">
+      {% endif %}
+      <div class="card-content">
+        <h3>{{ mascota.nombre }}</h3>
+        <p>{{ mascota.especie }} • {{ mascota.raza }}</p>
+        <p class="muted">Edad: {{ mascota.edad }}</p>
+        <div class="card-actions">
+          <a href="{% url 'usuarios:login' %}?next={% url 'usuarios:home' %}" class="btn-primary">Adoptar</a>
+          <a href="#" class="btn-secondary">Ver detalles</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>No hay mascotas disponibles ahora mismo.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}

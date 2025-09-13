@@ -1,2 +1,9 @@
-<h1>Sesión cerrada</h1>
-<a href="{% url 'usuarios:login' %}">Iniciar sesión</a>
+{% extends 'usuarios/base.html' %}
+{% block title %}Sesión cerrada{% endblock %}
+{% block content %}
+<div class="form-card">
+  <h2>Has cerrado sesión</h2>
+  <p>Gracias por usar AdoptaFácil.</p>
+  <a class="btn" href="{% url 'usuarios:home' %}">Volver al catálogo</a>
+</div>
+{% endblock %}

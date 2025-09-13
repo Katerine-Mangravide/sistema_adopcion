@@ -1,0 +1,28 @@
+{% extends 'usuarios/base.html' %}
+{% block title %}Mi Perfil{% endblock %}
+{% block content %}
+<div class="form-card profile-grid">
+  <div>
+    {% if adoptante.foto_perfil %}
+      <img class="avatar" src="{{ adoptante.foto_perfil.url }}" alt="avatar">
+    {% else %}
+      <img class="avatar" src="{% static 'img/placeholder.png' %}" alt="avatar">
+    {% endif %}
+    <p><a href="{% url 'usuarios:editar_perfil' %}" class="btn">Editar perfil</a></p>
+    <p><a href="{% url 'usuarios:cambiar_contrasena' %}" class="btn">Cambiar contraseña</a></p>
+    <form method="post" action="{% url 'usuarios:desactivar_cuenta' %}">
+      {% csrf_token %}
+      <button class="btn" type="submit" style="background:#b33">Desactivar cuenta</button>
+    </form>
+  </div>
+  <div>
+    <h2>{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+    <p><strong>Usuario:</strong> {{ request.user.username }}</p>
+    <p><strong>Email:</strong> {{ request.user.email }}</p>
+    <p><strong>Cédula:</strong> {{ adoptante.cedula }}</p>
+    <p><strong>Teléfono:</strong> {{ adoptante.telefono }}</p>
+    <p><strong>Dirección:</strong> {{ adoptante.direccion }}</p>
+    <p><a class="btn" href="{% url 'usuarios:descargar_datos' 'json' %}">Descargar mis datos (JSON)</a></p>
+  </div>
+</div>
+{% endblock %}

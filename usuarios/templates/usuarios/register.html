@@ -1,0 +1,10 @@
+<h1>Registro</h1>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Usuario"><br>
+    <input type="email" name="email" placeholder="Correo"><br>
+    <input type="password" name="password" placeholder="Contraseña"><br>
+    <input type="password" name="confirm_password" placeholder="Confirmar Contraseña"><br>
+    <button type="submit">Registrar</button>
+</form>
+<a href="{% url 'usuarios:login' %}">Volver al Login</a>

@@ -1,0 +1,23 @@
+{% extends "usuarios/base.html" %}
+{% block title %}Desactivar Cuenta - AdoptaFácil{% endblock %}
+
+{% block content %}
+<div class="form-container">
+  <div class="form-card">
+    <h2>Desactivar cuenta</h2>
+    <p style="color:#444; margin-bottom:20px;">
+      Si desactivas tu cuenta, ya no podrás iniciar sesión ni acceder a tus datos.
+      ¿Estás seguro de que quieres continuar?
+    </p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn-danger">Sí, desactivar mi cuenta</button>
+    </form>
+
+    <div class="form-footer">
+      <a href="{% url 'usuarios:perfil' %}">← Cancelar</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

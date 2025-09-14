@@ -5,33 +5,46 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from .forms import RegistroForm, PerfilForm
-from .models import Adoptante
 from django.http import HttpResponse, JsonResponse
 import json, csv
 from mascotas.models import Mascota
+from .forms import UserForm, AdoptanteForm
+from .models import Adoptante
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
 
 
 def register_adoptante(request):
     if request.method == "POST":
-        form = RegistroForm(request.POST)
+        form = RegistroForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Registro exitoso. Revisa la consola para el email de confirmación (modo desarrollo).")
-            return redirect('usuarios:login')
+            user = User.objects.create_user(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name'],
+                email=form.cleaned_data['email'],
+            )
+            adoptante = form.save(commit=False)
+            adoptante.user = user
+            adoptante.save()
+            login(request, user)  # inicia sesión automáticamente
+            return redirect('usuarios:home')
     else:
         form = RegistroForm()
-    return render(request, 'usuarios/register.html', {'form': form})
+
+    return render(request, "usuarios/register.html", {"form": form})
 
 def login_adoptante(request):
     if request.method == "POST":
-        username = request.POST.get('username','').strip()
-        password = request.POST.get('password','')
-        user = authenticate(request, username=username, password=password)
-        if user is not None and user.is_active:
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
             login(request, user)
             return redirect('usuarios:home')
-        messages.error(request, "Usuario o contraseña incorrectos / usuario inactivo.")
-    return render(request, 'usuarios/login.html')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'usuarios/login.html', {"form": form})
 
 def logout_adoptante(request):
     logout(request)
@@ -81,14 +94,20 @@ def ver_perfil(request):
 def editar_perfil(request):
     adoptante = get_object_or_404(Adoptante, user=request.user)
     if request.method == "POST":
-        form = PerfilForm(request.POST, request.FILES, instance=adoptante)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Perfil actualizado.")
+        user_form = UserForm(request.POST, instance=request.user)
+        adoptante_form = AdoptanteForm(request.POST, instance=adoptante)
+        if user_form.is_valid() and adoptante_form.is_valid():
+            user_form.save()
+            adoptante_form.save()
             return redirect('usuarios:perfil')
     else:
-        form = PerfilForm(instance=adoptante)
-    return render(request, 'usuarios/editar_perfil.html', {'form': form})
+        user_form = UserForm(instance=request.user)
+        adoptante_form = AdoptanteForm(instance=adoptante)
+
+    return render(request, 'usuarios/editar_perfil.html', {
+        'user_form': user_form,
+        'adoptante_form': adoptante_form
+    })
 
 @login_required
 def cambiar_contrasena(request):
@@ -105,16 +124,19 @@ def cambiar_contrasena(request):
 
 @login_required
 def desactivar_cuenta(request):
-    if request.method == 'POST':
-        adoptante = get_object_or_404(Adoptante, user=request.user)
-        request.user.is_active = False
-        request.user.save()
+    adoptante = get_object_or_404(Adoptante, user=request.user)
+
+    if request.method == "POST":
         adoptante.is_active = False
         adoptante.save()
+        request.user.is_active = False
+        request.user.save()
+
         logout(request)
-        messages.success(request, 'Cuenta desactivada.')
-        return redirect('usuarios:login')
-    return render(request, 'usuarios/confirmar_desactivar.html')
+        messages.success(request, "Tu cuenta ha sido desactivada correctamente.")
+        return redirect("usuarios:home")
+
+    return render(request, "usuarios/desactivar_cuenta.html")
 
 @login_required
 def descargar_datos(request, formato='json'):

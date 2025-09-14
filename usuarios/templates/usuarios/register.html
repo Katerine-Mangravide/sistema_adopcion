@@ -1,13 +1,65 @@
-{% extends 'usuarios/base.html' %}
-{% block title %}Registrarse{% endblock %}
+{% extends "usuarios/base.html" %}
+{% block title %}Registrarse - AdoptaFácil{% endblock %}
 {% block content %}
-<div class="form-card">
-  <h2>Registro</h2>
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn" type="submit">Registrarme</button>
-  </form>
-  <p>¿Ya tenés cuenta? <a href="{% url 'usuarios:login' %}">Iniciar sesión</a></p>
+<div class="form-container">
+  <div class="form-card">
+    <h2>Crear cuenta</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
 
+      <!-- Campos de User -->
+      <div class="form-group">
+        <label for="id_username">Usuario</label>
+        {{ form.username }}
+      </div>
+      <div class="form-group">
+  <label for="id_password">Contraseña</label>
+  {{ form.password }}
+  {% for error in form.password.errors %}
+    <p class="error-message">{{ error }}</p>
+  {% endfor %}
+</div>
+
+<div class="form-group">
+  <label for="id_confirm_password">Confirmar contraseña</label>
+  {{ form.confirm_password }}
+  {% for error in form.confirm_password.errors %}
+    <p class="error-message">{{ error }}</p>
+  {% endfor %}
+</div>
+      <div class="form-group">
+        <label for="id_first_name">Nombre</label>
+        {{ form.first_name }}
+      </div>
+      <div class="form-group">
+        <label for="id_last_name">Apellido</label>
+        {{ form.last_name }}
+      </div>
+      <div class="form-group">
+        <label for="id_email">Email</label>
+        {{ form.email }}
+      </div>
+
+      <!-- Campos de Adoptante -->
+      <div class="form-group">
+        <label for="id_cedula">Cédula</label>
+        {{ form.cedula }}
+      </div>
+      <div class="form-group">
+        <label for="id_telefono">Teléfono</label>
+        {{ form.telefono }}
+      </div>
+      <div class="form-group">
+        <label for="id_direccion">Dirección</label>
+        {{ form.direccion }}
+      </div>
+
+      <button type="submit" class="btn-primary">Registrarse</button>
+    </form>
+
+    <div class="form-footer">
+      <p>¿Ya tienes cuenta? <a href="{% url 'usuarios:login' %}">Inicia sesión aquí</a></p>
+    </div>
+  </div>
 </div>
 {% endblock %}

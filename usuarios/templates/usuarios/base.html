@@ -15,15 +15,20 @@
       </div>
       <nav>
         <ul class="nav-list">
-            <li><a href="{% url 'usuarios:home' %}">Inicio</a></li>
-            {% if user.is_authenticated %}
+          <li><a href="{% url 'usuarios:home' %}">Inicio</a></li>
+          {% if user.is_authenticated %}
             <li><a href="{% url 'usuarios:perfil' %}">Mi Perfil</a></li>
-            <li><a href="{% url 'usuarios:logout' %}">Cerrar sesión</a></li>
-            {% else %}
+            <li>
+              <form method="post" action="{% url 'usuarios:logout' %}" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-link">Cerrar sesión</button>
+              </form>
+            </li>
+          {% else %}
             <li><a href="{% url 'usuarios:login' %}">Iniciar sesión</a></li>
             <li><a href="{% url 'usuarios:register' %}">Registrarse</a></li>
-            {% endif %}
-            </ul>
+          {% endif %}
+        </ul>
       </nav>
     </div>
   </header>
@@ -39,3 +44,4 @@
   </footer>
 </body>
 </html>
+

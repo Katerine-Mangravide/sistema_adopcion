@@ -219,3 +219,158 @@ body {
 .form-footer a:hover {
   text-decoration: underline;
 }
+
+
+/* Cerrar sesion/*
+
+/* Botón de logout igual que un link */
+.logout-form {
+  display: inline; /* no rompe el layout */
+  margin: 0;
+  padding: 0;
+}
+
+.logout-link {
+  background: none;
+  border: none;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.logout-link:hover {
+  text-decoration: underline;
+}
+
+/*Mensaje de error en register*/
+.error-message {
+  color: #c01e1e;  /* rojo moderno */
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/*AVATAR*/
+.avatar-grid {
+  display: flex;
+  gap: 15px;
+  list-style: none;
+  padding: 0;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.avatar-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.avatar-option input {
+  display: none;
+}
+
+.avatar-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  transition: border 0.3s ease;
+}
+
+.avatar-option input:checked + .avatar-img {
+  border-color: #3b82f6;
+}
+
+.avatar-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;            /* espacio entre los avatares */
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.avatar-grid li {
+  flex: 1;
+  text-align: center;
+}
+
+.avatar-option img {
+  width: 80px;          /* tamaño de cada avatar */
+  height: 80px;
+  border-radius: 50%;   /* redondo */
+  object-fit: cover;    /* ajusta la imagen dentro */
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border 0.3s, transform 0.2s;
+}
+
+.avatar-option input {
+  display: none;        /* oculta el radio button feo */
+}
+
+.avatar-option input:checked + img {
+  border: 2px solid #007bff; /* marco azul al elegir */
+  transform: scale(1.05);    /* efecto de zoom */
+}
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* siempre 5 columnas */
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.avatar-grid li {
+  text-align: center;
+}
+
+.avatar-option img {
+  width: 60px;   /* más chicos para que entren */
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border 0.3s, transform 0.2s;
+}
+
+/*Desactivar usuario*/
+.btn-danger {
+  width: 100%;
+  padding: 12px;
+  background: #dc2626; /* rojo */
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 15px;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+/*error de contraseña*/
+.error-box {
+  background: #fde8e8;
+  color: #c53030;
+  border: 1px solid #f5c2c2;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.error-message {
+  color: #c53030;
+  font-size: 13px;
+  margin-top: 4px;
+}

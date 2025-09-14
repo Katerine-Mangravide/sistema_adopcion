@@ -8,19 +8,41 @@
   <div class="form-card">
     <h2>Iniciar sesión</h2>
 
+    <!-- Errores generales -->
+    {% if form.non_field_errors %}
+      <div class="error-box">
+        {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
     <form method="post">
       {% csrf_token %}
+      
+      <!-- Usuario -->
       <div class="form-group">
-        <label for="id_username">Usuario</label>
-        <input type="text" name="username" id="id_username" required>
+        <label for="{{ form.username.id_for_label }}">Usuario</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <p class="error-message">{{ form.username.errors.0 }}</p>
+        {% endif %}
       </div>
+
+      <!-- Contraseña -->
       <div class="form-group">
-        <label for="id_password">Contraseña</label>
-        <input type="password" name="password" id="id_password" required>
+        <label for="{{ form.password.id_for_label }}">Contraseña</label>
+        {{ form.password }}
+        {% if form.password.errors %}
+          <p class="error-message">{{ form.password.errors.0 }}</p>
+        {% endif %}
       </div>
-      <button type="submit" class="btn-primary">Ingresar</button>
+
+      <!-- Botón ingresar -->
+      <button type="submit" class="btn-primary btn-login">Ingresar</button>
     </form>
 
+    <!-- Enlaces -->
     <div class="form-links">
       <a href="{% url 'usuarios:password_reset' %}">¿Olvidaste tu contraseña?</a>
       <a href="{% url 'usuarios:register' %}">Registrarse</a>

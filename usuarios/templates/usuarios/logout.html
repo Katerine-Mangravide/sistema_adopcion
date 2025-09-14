@@ -1,9 +1,11 @@
-{% extends 'usuarios/base.html' %}
-{% block title %}Sesión cerrada{% endblock %}
+{% extends "usuarios/base.html" %}
+{% block title %}Cerraste sesión - AdoptaFácil{% endblock %}
 {% block content %}
-<div class="form-card">
-  <h2>Has cerrado sesión</h2>
-  <p>Gracias por usar AdoptaFácil.</p>
-  <a class="btn" href="{% url 'usuarios:home' %}">Volver al catálogo</a>
+<div class="form-container">
+  <div class="form-card">
+    <h2>Sesión cerrada</h2>
+    <p>Has cerrado sesión correctamente.</p>
+    <a href="{% url 'usuarios:home' %}" class="btn-primary">Volver al inicio</a>
+  </div>
 </div>
 {% endblock %}

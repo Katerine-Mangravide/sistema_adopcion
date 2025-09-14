@@ -1,11 +1,73 @@
-{% extends 'usuarios/base.html' %}
-{% block title %}Editar Perfil{% endblock %}
+{% extends "usuarios/base.html" %}
+{% load static %}
+{% block title %}Editar Perfil - AdoptaFácil{% endblock %}
+
 {% block content %}
-<div class="form-card">
-  <h2>Editar Perfil</h2>
-  <form method="post" enctype="multipart/form-data">{% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn" type="submit">Guardar cambios</button>
-  </form>
+<div class="form-container">
+  <div class="form-card">
+    <h2>Editar Perfil</h2>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <!-- Campos del usuario -->
+      <div class="form-group">
+        {{ user_form.first_name.label_tag }}
+        {{ user_form.first_name }}
+      </div>
+      <div class="form-group">
+        {{ user_form.last_name.label_tag }}
+        {{ user_form.last_name }}
+      </div>
+      <div class="form-group">
+        {{ user_form.email.label_tag }}
+        {{ user_form.email }}
+      </div>
+
+      <!-- Campos del adoptante -->
+      <div class="form-group">
+        {{ adoptante_form.cedula.label_tag }}
+        {{ adoptante_form.cedula }}
+      </div>
+      <div class="form-group">
+        {{ adoptante_form.telefono.label_tag }}
+        {{ adoptante_form.telefono }}
+      </div>
+      <div class="form-group">
+        {{ adoptante_form.direccion.label_tag }}
+        {{ adoptante_form.direccion }}
+      </div>
+
+      <!-- Avatares -->
+<h3>Elegir avatar</h3>
+<ul class="avatar-grid">
+  {% for val,label in adoptante_form.avatar.field.choices %}
+    {% if val %} {# <- evitamos el valor vacío #}
+      <li>
+        <label class="avatar-option">
+          <input type="radio" 
+                 name="{{ adoptante_form.avatar.name }}" 
+                 value="{{ val }}"
+                 {% if adoptante_form.instance.avatar == val %}checked{% endif %}>
+          <img src="{% static 'img/avatars/' %}{{ val }}" alt="{{ label }}">
+        </label>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+<button type="submit" class="btn-primary">Guardar cambios</button>
+</form>
+
+<!-- Botón para desactivar cuenta -->
+<form method="get" action="{% url 'usuarios:desactivar_cuenta' %}" style="margin-top:15px;">
+  <button type="submit" class="btn-danger">Desactivar cuenta</button>
+</form>
+
+    <div class="form-footer">
+      <a href="{% url 'usuarios:perfil' %}">← Volver al perfil</a>
+    </div>
+  </div>
 </div>
 {% endblock %}
+

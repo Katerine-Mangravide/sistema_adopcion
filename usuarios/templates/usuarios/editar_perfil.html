@@ -7,7 +7,7 @@
   <div class="form-card">
     <h2>Editar Perfil</h2>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
 
       <!-- Campos del usuario -->
@@ -39,30 +39,30 @@
       </div>
 
       <!-- Avatares -->
-<h3>Elegir avatar</h3>
-<ul class="avatar-grid">
-  {% for val,label in adoptante_form.avatar.field.choices %}
-    {% if val %} {# <- evitamos el valor vacío #}
-      <li>
-        <label class="avatar-option">
-          <input type="radio" 
-                 name="{{ adoptante_form.avatar.name }}" 
-                 value="{{ val }}"
-                 {% if adoptante_form.instance.avatar == val %}checked{% endif %}>
-          <img src="{% static 'img/avatars/' %}{{ val }}" alt="{{ label }}">
-        </label>
-      </li>
-    {% endif %}
-  {% endfor %}
-</ul>
+      <h3>Elegir avatar</h3>
+      <ul class="avatar-grid">
+        {% for val,label in adoptante_form.avatar.field.choices %}
+          {% if val %}
+          <li>
+            <label class="avatar-option">
+              <input type="radio" name="{{ adoptante_form.avatar.name }}" value="{{ val }}"
+                     {% if adoptante_form.instance.avatar == val %}checked{% endif %}>
+              <img src="{% static 'img/avatars/' %}{{ val }}" alt="{{ label }}">
+            </label>
+          </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
 
-<button type="submit" class="btn-primary">Guardar cambios</button>
-</form>
+      <!-- Botones principales -->
+      <button type="submit" class="btn-primary">Guardar cambios</button>
+    </form>
 
-<!-- Botón para desactivar cuenta -->
-<form method="get" action="{% url 'usuarios:desactivar_cuenta' %}" style="margin-top:15px;">
-  <button type="submit" class="btn-danger">Desactivar cuenta</button>
-</form>
+    <!-- Botón desactivar cuenta -->
+    <form method="post" action="{% url 'usuarios:desactivar_cuenta' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn-danger">Desactivar cuenta</button>
+    </form>
 
     <div class="form-footer">
       <a href="{% url 'usuarios:perfil' %}">← Volver al perfil</a>
@@ -70,4 +70,3 @@
   </div>
 </div>
 {% endblock %}
-

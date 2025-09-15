@@ -5,23 +5,15 @@
 <div class="form-container">
   <div class="form-card">
 
-    <!-- Mostrar avatar o foto -->
     {% if adoptante.avatar %}
-      <img src="{% static 'img/avatars/' %}{{ adoptante.avatar }}" 
-           alt="Avatar" class="profile-photo">
-    {% elif adoptante.foto_perfil %}
-      <img src="{{ adoptante.foto_perfil.url }}" 
-           alt="Foto de perfil" class="profile-photo">
+      <img src="{% static 'img/avatars/' %}{{ adoptante.avatar }}" alt="Avatar" class="profile-photo">
     {% else %}
-      <img src="{% static 'img/user-placeholder.png' %}" 
-           alt="Sin foto" class="profile-photo">
+      <img src="{% static 'img/user-placeholder.png' %}" alt="Sin foto" class="profile-photo">
     {% endif %}
 
-    <!-- Nombre y usuario -->
     <h2>{{ adoptante.user.first_name }} {{ adoptante.user.last_name }}</h2>
     <p style="color:#666; margin-bottom:20px;">@{{ adoptante.user.username }}</p>
 
-    <!-- Datos personales -->
     <div class="form-group">
       <label><strong>Cédula:</strong></label>
       <p>{{ adoptante.cedula }}</p>
@@ -42,11 +34,18 @@
       <p>{{ adoptante.direccion|default:"No especificada" }}</p>
     </div>
 
-    <!-- Botones -->
-    <div class="card-actions" style="margin-top:20px; display:flex; justify-content:space-between;">
+    <!-- Acciones -->
+    <div class="card-actions" style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
       <a href="{% url 'usuarios:editar_perfil' %}" class="btn-primary">Editar Perfil</a>
       <a href="{% url 'usuarios:home' %}" class="btn-secondary">Volver al inicio</a>
     </div>
+
+    <!-- Botones para descargar datos -->
+    <div class="card-actions" style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
+      <a href="{% url 'usuarios:descargar_datos' 'json' %}" class="btn-primary">Descargar JSON</a>
+      <a href="{% url 'usuarios:descargar_datos' 'csv' %}" class="btn-secondary">Descargar CSV</a>
+    </div>
+
   </div>
 </div>
 {% endblock %}

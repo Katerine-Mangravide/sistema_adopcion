@@ -19,7 +19,7 @@
           {% if user.is_authenticated %}
             <li><a href="{% url 'usuarios:perfil' %}">Mi Perfil</a></li>
             <li>
-              <form method="post" action="{% url 'usuarios:logout' %}" class="logout-form">
+              <form method="post" action="{% url 'usuarios:logout' %}" style="display:inline;" class="logout-form">
                 {% csrf_token %}
                 <button type="submit" class="logout-link">Cerrar sesión</button>
               </form>
@@ -34,6 +34,13 @@
   </header>
 
   <main class="container">
+    {% if messages %}
+      <div class="message-list">
+        {% for m in messages %}
+          <div class="message {{ m.tags }}">{{ m }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
 
@@ -44,4 +51,3 @@
   </footer>
 </body>
 </html>
-

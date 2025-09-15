@@ -1,51 +1,33 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Adoptante
 
 class RegistroForm(forms.ModelForm):
-    username = forms.CharField()
-    first_name = forms.CharField(label="Nombre")
-    last_name = forms.CharField(label="Apellido")
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
+    # campos extra para crear el User
+    username = forms.CharField(max_length=150, label="Usuario")
+    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirmar contraseña")
+    first_name = forms.CharField(max_length=30, required=False, label="Nombre")
+    last_name = forms.CharField(max_length=150, required=False, label="Apellido")
+    email = forms.EmailField(required=False, label="Email")
 
     class Meta:
         model = Adoptante
-        fields = ["cedula", "telefono", "direccion", "avatar"]
+        fields = ['cedula', 'telefono', 'direccion']  # no avatar ni foto aquí (avatar sólo en editar)
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("El nombre de usuario ya está en uso.")
+        return username
 
     def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        confirm_password = cleaned_data.get("confirm_password")
-        if password and confirm_password and password != confirm_password:
-            self.add_error("confirm_password", "Las contraseñas no coinciden.")
-        return cleaned_data
-
-    def save(self, commit=True):
-        # Crear el usuario
-        user = User(
-            username=self.cleaned_data["username"],
-            first_name=self.cleaned_data["first_name"],   # 👈 ahora se guarda
-            last_name=self.cleaned_data["last_name"],     # 👈 ahora también
-            email=self.cleaned_data["email"]
-        )
-        user.set_password(self.cleaned_data["password"])
-        if commit:
-            user.save()
-
-        # Crear adoptante vinculado
-        adoptante = super().save(commit=False)
-        adoptante.user = user
-        if commit:
-            adoptante.save()
-        return adoptante
-
-class PerfilForm(forms.ModelForm):
-    class Meta:
-        model = Adoptante
-        fields = ['telefono', 'direccion', 'avatar']
+        cleaned = super().clean()
+        pw = cleaned.get('password')
+        pw2 = cleaned.get('password2')
+        if pw and pw2 and pw != pw2:
+            self.add_error('password2', 'Las contraseñas no coinciden.')
+        return cleaned
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -55,4 +37,9 @@ class UserForm(forms.ModelForm):
 class AdoptanteForm(forms.ModelForm):
     class Meta:
         model = Adoptante
-        fields = ['cedula', 'telefono', 'direccion', 'avatar']
+        fields = ['cedula', 'telefono', 'direccion', 'avatar', 'foto_perfil']
+        widgets = {
+            'avatar': forms.RadioSelect(),  # renderiza radios (pero en template los mostraremos con imágenes)
+        }
+
+        

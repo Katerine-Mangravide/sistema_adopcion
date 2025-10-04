@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mascotas',
     'usuarios',
+    'admin_panel',
 ]
 
 # Configuración de email (modo desarrollo: imprime correos en consola)

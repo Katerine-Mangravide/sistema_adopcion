@@ -1,0 +1,23 @@
+{% extends "usuarios/base.html" %}
+{% block title %}Panel Admin{% endblock %}
+{% block content %}
+<div class="admin-dashboard">
+  <div class="admin-card">
+    <h3>Resumen del sistema</h3>
+    <ul>
+      <li>Usuarios: {{ total_usuarios }}</li>
+      <li>Mascotas: {{ total_mascotas }}</li>
+      <li>Refugios: {{ total_refugios }}</li>
+      <li>Solicitudes: {{ total_solicitudes }}</li>
+    </ul>
+  </div>
+
+  <div class="admin-card">
+    <a class="admin-btn admin-btn-primary" href="{% url 'admin_panel:gestion_usuarios' %}">Gestionar Usuarios</a>
+    <a class="admin-btn admin-btn-primary" href="{% url 'admin_panel:gestion_mascotas' %}">Gestionar Mascotas</a>
+    <a class="admin-btn admin-btn-primary" href="{% url 'admin_panel:gestion_refugios' %}">Gestionar Refugios</a>
+    <a class="admin-btn admin-btn-primary" href="{% url 'admin_panel:gestion_solicitudes' %}">Gestionar Solicitudes</a>
+  </div>
+</div>
+{% endblock %}
+ 

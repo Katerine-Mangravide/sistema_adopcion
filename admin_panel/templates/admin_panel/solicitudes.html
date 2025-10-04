@@ -1,0 +1,32 @@
+{% extends "usuarios/base.html" %}
+{% block title %}Solicitudes - Admin{% endblock %}
+{% block content %}
+<h2>Solicitudes</h2>
+
+<table class="admin-table">
+  <thead>
+    <tr><th>ID</th><th>Mascota</th><th>Solicitante</th><th>Teléfono</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr>
+  </thead>
+  <tbody>
+    {% for s in solicitudes %}
+    <tr>
+      <td>{{ s.id }}</td>
+      <td>{{ s.mascota.nombre }}</td>
+      <td>{{ s.nombre_adoptante }} {{ s.apellido_adoptante }}</td>
+      <td>{{ s.telefono }}</td>
+      <td>{{ s.fecha_solicitud }}</td>
+      <td>{{ s.get_estado_display }}</td>
+      <td>
+        <a class="admin-btn admin-btn-secondary" href="{% url 'admin_panel:editar_solicitud' s.id %}">Editar</a>
+        <form method="post" action="{% url 'admin_panel:eliminar_solicitud' s.id %}" style="display:inline;">
+          {% csrf_token %}
+          <button class="admin-btn admin-btn-danger" type="submit">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7">No hay solicitudes.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

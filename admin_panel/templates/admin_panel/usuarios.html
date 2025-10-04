@@ -1,0 +1,31 @@
+{% extends "usuarios/base.html" %}
+{% block title %}Usuarios - Admin{% endblock %}
+
+{% block content %}
+<h2>Gestión de Usuarios</h2>
+<a href="{% url 'admin_panel:crear_usuario' %}" class="admin-btn admin-btn-primary" style="margin-bottom: 20px;">Crear Usuario</a>
+
+<div class="admin-dashboard">
+  {% for adoptante in adoptantes %}
+  <div class="admin-card">
+    <div style="display:flex; justify-content: space-between; align-items: center;">
+      <div>
+        <h3>{{ adoptante.user.username }}</h3>
+        <p><strong>Nombre:</strong> {{ adoptante.user.first_name }} {{ adoptante.user.last_name }}</p>
+        <p><strong>Email:</strong> {{ adoptante.user.email }}</p>
+        <p><strong>Cédula:</strong> {{ adoptante.cedula }}</p>
+      </div>
+      <div style="display:flex; flex-direction: column; gap: 10px;">
+        <a class="admin-btn admin-btn-secondary" href="{% url 'admin_panel:editar_usuario' adoptante.id %}">Editar</a>
+        <form method="post" action="{% url 'admin_panel:eliminar_usuario' adoptante.id %}" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="admin-btn admin-btn-danger">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>No hay usuarios registrados.</p>
+  {% endfor %}
+</div>
+{% endblock %}

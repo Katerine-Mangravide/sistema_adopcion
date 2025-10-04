@@ -7,10 +7,10 @@ from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 import json, csv
-
 from .forms import RegistroForm, UserForm, AdoptanteForm
 from .models import Adoptante
 from mascotas.models import Mascota
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 def register_adoptante(request):
@@ -44,14 +44,18 @@ def login_adoptante(request):
             if user and user.is_active:
                 login(request, user)
                 messages.success(request, "Has iniciado sesión correctamente.")
+
+                # ✅ Si es admin, redirige al admin-web
+                if user.is_staff:
+                    return redirect('admin_panel:dashboard')
+
                 return redirect('usuarios:home')
             else:
                 messages.error(request, "Cuenta inactiva.")
-        # ⚠️ Ya no agregamos un messages.error extra, 
-        # porque AuthenticationForm maneja los errores de usuario/contraseña inválidos.
     else:
         form = AuthenticationForm()
     return render(request, 'usuarios/login.html', {'form': form})
+
 
 
 def logout_adoptante(request):
@@ -182,3 +186,13 @@ def descargar_datos(request, formato='json'):
         writer.writerow(data.keys())
         writer.writerow(data.values())
         return response
+    
+    # Vista para el panel de administración web
+@staff_member_required(login_url='usuarios:login')
+def admin_dashboard(request):
+    """
+    Dashboard para el administrador.
+    Redirige a la vista de administración de Django, pero puede extenderse
+    para mostrar estadísticas, links directos a modelos, etc.
+    """
+    return render(request, 'usuarios/admin_dashboard.html')

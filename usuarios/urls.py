@@ -14,6 +14,7 @@ urlpatterns = [
     path('perfil/cambiar-contrasena/', views.cambiar_contrasena, name='cambiar_contrasena'),
     path('perfil/desactivar/', views.desactivar_cuenta, name='desactivar_cuenta'),
     path('perfil/descargar/<str:formato>/', views.descargar_datos, name='descargar_datos'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
 
     # 🔑 Password reset (usamos las vistas oficiales de Django con plantillas personalizadas)
     path(

@@ -1,0 +1,16 @@
+{% extends 'usuarios/base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h1>Panel de Administración</h1>
+<p>Bienvenido, {{ request.user.username }}. Aquí puedes gestionar todo el sistema.</p>
+
+<div class="admin-links">
+  <ul>
+    <li><a href="{% url 'admin:index' %}">Ir al Admin de Django</a></li>
+    <li><a href="{% url 'usuarios:home' %}">Volver al Inicio</a></li>
+  </ul>
+</div>
+
+{% endblock %}

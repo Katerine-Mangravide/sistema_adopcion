@@ -1,0 +1,77 @@
+{% extends 'usuarios/base.html' %}
+{% load static %}
+{% block title %}Crear Usuario - AdoptaFácil{% endblock %}
+
+{% block content %}
+<div class="form-container">
+  <div class="form-card">
+    <h2>➕ Crear Usuario</h2>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <!-- Campos usuario -->
+      <div class="form-group">
+        <label>Usuario</label>
+        <input type="text" name="username" value="{{ form.username.value|default_if_none:'' }}">
+        {% if form.username.errors %}
+          <p class="error-message">{{ form.username.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" name="first_name" value="{{ form.first_name.value|default_if_none:'' }}">
+      </div>
+
+      <div class="form-group">
+        <label>Apellido</label>
+        <input type="text" name="last_name" value="{{ form.last_name.value|default_if_none:'' }}">
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" value="{{ form.email.value|default_if_none:'' }}">
+      </div>
+
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" name="password1">
+      </div>
+
+      <div class="form-group">
+        <label>Confirmar contraseña</label>
+        <input type="password" name="password2">
+        {% if form.password2.errors %}
+          <p class="error-message">{{ form.password2.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Campos adoptante -->
+      <div class="form-group">
+        <label>Cédula</label>
+        <input type="text" name="cedula" value="{{ form.cedula.value|default_if_none:'' }}">
+        {% if form.cedula.errors %}
+          <p class="error-message">{{ form.cedula.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="text" name="telefono" value="{{ form.telefono.value|default_if_none:'' }}">
+      </div>
+
+      <div class="form-group">
+        <label>Dirección</label>
+        <input type="text" name="direccion" value="{{ form.direccion.value|default_if_none:'' }}">
+      </div>
+
+      <!-- Botones -->
+      <div class="form-actions" style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
+  <button type="submit" class="btn-primary">Guardar</button>
+  <a href="{% url 'admin_panel:gestion_usuarios' %}" class="btn-secondary">Cancelar</a>
+</div>
+    </form>
+  </div>
+</div>
+{% endblock %}

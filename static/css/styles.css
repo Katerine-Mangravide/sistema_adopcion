@@ -329,3 +329,251 @@ body {
 .avatar-grid label img:hover {
   transform: scale(1.05);
 }
+
+/* ==== PANEL ADMIN ==== */
+
+/* Contenedor general del dashboard */
+.admin-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  padding: 20px;
+}
+
+.admin-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+}
+
+
+/* Título de sección */
+.admin-card h3 {
+  margin: 0 0 10px 0;
+  color: #1e3a8a;
+}
+
+/* Tabla de gestión */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.admin-table th,
+.admin-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.admin-table th {
+  background: #1e3a8a;
+  color: white;
+  font-weight: 600;
+}
+
+.admin-table tr:hover {
+  background: #f1f5f9;
+}
+
+/* Botones admin */
+.admin-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  margin-right: 5px;
+  cursor: pointer;
+  border: none;
+}
+
+.admin-btn-primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.admin-btn-primary:hover {
+  background: #2563eb;
+}
+
+.admin-btn-secondary {
+  background: #6b7280;
+  color: white;
+}
+
+.admin-btn-secondary:hover {
+  background: #4b5563;
+}
+
+.admin-btn-danger {
+  background: #dc2626;
+  color: white;
+}
+
+.admin-btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* Buscador admin */
+.admin-search {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.admin-search input,
+.admin-search select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* gestion usuarios */
+/* Contenedor acciones y buscador */
+.admin-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-search-input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  flex-grow: 1;
+  max-width: 250px;
+  font-size: 14px;
+  transition: border 0.3s;
+}
+
+.admin-search-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* Contenedor tabla con scroll horizontal en pantallas pequeñas */
+.table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  padding: 10px;
+}
+
+/* Estilo refinado de tabla */
+.admin-table th,
+.admin-table td {
+  padding: 12px 15px;
+}
+
+.admin-table th {
+  background: #1e3a8a;
+  color: #fff;
+  font-weight: 600;
+  text-align: left;
+}
+
+.admin-table tr:nth-child(even) {
+  background: #f5f7fa;
+}
+
+.admin-table tr:hover {
+  background: #e0e7ff;
+}
+
+/* crear usuario */
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.form-card {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+}
+
+.form-card h2 {
+  margin-bottom: 20px;
+  color: #1e3a8a;
+}
+
+/* Campos */
+.styled-form .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.styled-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #444;
+}
+
+.styled-form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* Botones */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-primary {
+  flex: 1;
+  background: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 10px 0;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+}
+
+.btn-secondary {
+  flex: 1;
+  background: #6b7280;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 8px;
+  padding: 10px 0;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: #4b5563;
+}
+

@@ -1,0 +1,33 @@
+{% extends "usuarios/base.html" %}
+{% block title %}Mascotas - Admin{% endblock %}
+{% block content %}
+<h2>Mascotas</h2>
+<a href="{% url 'admin_panel:crear_mascota' %}" class="admin-btn admin-btn-primary">Crear Mascota</a>
+
+<table class="admin-table">
+  <thead>
+    <tr><th>ID</th><th>Nombre</th><th>Especie</th><th>Raza</th><th>Refugio</th><th>Adoptada</th><th>Acciones</th></tr>
+  </thead>
+  <tbody>
+    {% for m in mascotas %}
+    <tr>
+      <td>{{ m.id }}</td>
+      <td>{{ m.nombre }}</td>
+      <td>{{ m.especie }}</td>
+      <td>{{ m.raza }}</td>
+      <td>{{ m.refugio.nombre }}</td>
+      <td>{{ m.adoptada }}</td>
+      <td>
+        <a class="admin-btn admin-btn-secondary" href="{% url 'admin_panel:editar_mascota' m.id %}">Editar</a>
+        <form method="post" action="{% url 'admin_panel:eliminar_mascota' m.id %}" style="display:inline;">
+          {% csrf_token %}
+          <button class="admin-btn admin-btn-danger" type="submit">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7">No hay mascotas registradas.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

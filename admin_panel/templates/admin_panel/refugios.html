@@ -1,0 +1,32 @@
+{% extends "usuarios/base.html" %}
+{% block title %}Refugios - Admin{% endblock %}
+{% block content %}
+<h2>Refugios</h2>
+<a href="{% url 'admin_panel:crear_refugio' %}" class="admin-btn admin-btn-primary">Crear Refugio</a>
+
+<table class="admin-table">
+  <thead>
+    <tr><th>ID</th><th>Nombre</th><th>Dirección</th><th>Teléfono</th><th>Email</th><th>Acciones</th></tr>
+  </thead>
+  <tbody>
+    {% for r in refugios %}
+    <tr>
+      <td>{{ r.id }}</td>
+      <td>{{ r.nombre }}</td>
+      <td>{{ r.direccion }}</td>
+      <td>{{ r.telefono }}</td>
+      <td>{{ r.email }}</td>
+      <td>
+        <a class="admin-btn admin-btn-secondary" href="{% url 'admin_panel:editar_refugio' r.id %}">Editar</a>
+        <form method="post" action="{% url 'admin_panel:eliminar_refugio' r.id %}" style="display:inline;">
+          {% csrf_token %}
+          <button class="admin-btn admin-btn-danger" type="submit">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">No hay refugios.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

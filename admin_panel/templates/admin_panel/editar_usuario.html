@@ -5,13 +5,13 @@
 <div class="form-container">
   <div class="form-card">
     <h2>Editar Usuario</h2>
-
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
 
-      <!-- Campos del usuario -->
+      <!-- Datos del usuario -->
+      <h3>Datos del usuario</h3>
       <div class="form-group">
-        {{ user_form.first_name.label_tag }}
+        <label>Nombre</label>
         {{ user_form.first_name }}
         {% if user_form.first_name.errors %}
           <p class="error-message">{{ user_form.first_name.errors.0 }}</p>
@@ -19,7 +19,7 @@
       </div>
 
       <div class="form-group">
-        {{ user_form.last_name.label_tag }}
+        <label>Apellido</label>
         {{ user_form.last_name }}
         {% if user_form.last_name.errors %}
           <p class="error-message">{{ user_form.last_name.errors.0 }}</p>
@@ -27,16 +27,17 @@
       </div>
 
       <div class="form-group">
-        {{ user_form.email.label_tag }}
+        <label>Email</label>
         {{ user_form.email }}
         {% if user_form.email.errors %}
           <p class="error-message">{{ user_form.email.errors.0 }}</p>
         {% endif %}
       </div>
 
-      <!-- Campos del adoptante -->
+      <!-- Datos del adoptante -->
+      <h3>Datos del adoptante</h3>
       <div class="form-group">
-        {{ adoptante_form.cedula.label_tag }}
+        <label>Cédula</label>
         {{ adoptante_form.cedula }}
         {% if adoptante_form.cedula.errors %}
           <p class="error-message">{{ adoptante_form.cedula.errors.0 }}</p>
@@ -44,38 +45,28 @@
       </div>
 
       <div class="form-group">
-        {{ adoptante_form.telefono.label_tag }}
+        <label>Teléfono</label>
         {{ adoptante_form.telefono }}
       </div>
 
       <div class="form-group">
-        {{ adoptante_form.direccion.label_tag }}
+        <label>Dirección</label>
         {{ adoptante_form.direccion }}
       </div>
 
-      <!-- Avatares -->
-      <h3>Elegir avatar</h3>
-      <ul class="avatar-grid">
-        {% for val,label in adoptante_form.avatar.field.choices %}
-          {% if val %}
-          <li>
-            <label class="avatar-option">
-              <input type="radio" name="{{ adoptante_form.avatar.name }}" value="{{ val }}"
-                     {% if adoptante_form.instance.avatar == val %}checked{% endif %}>
-              <img src="{% static 'img/avatars/' %}{{ val }}" alt="{{ label }}">
-            </label>
-          </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
+      <!-- Avatar -->
+      <div class="form-group">
+        <label>Avatar</label>
+        {{ adoptante_form.avatar }}
+      </div>
 
       <!-- Foto de perfil -->
       <div class="form-group">
-        {{ adoptante_form.foto_perfil.label_tag }}
+        <label>Foto de perfil</label>
         {{ adoptante_form.foto_perfil }}
       </div>
 
-      <!-- Botones principales -->
+      <!-- Botones -->
       <div class="form-group" style="display:flex; gap:10px;">
         <button type="submit" class="btn-primary">Actualizar</button>
         <a href="{% url 'admin_panel:gestion_usuarios' %}" class="btn-secondary" style="text-align:center; display:inline-block;">Volver</a>

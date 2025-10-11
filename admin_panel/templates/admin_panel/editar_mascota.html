@@ -1,11 +1,83 @@
 {% extends "usuarios/base.html" %}
 {% block title %}Editar Mascota - Admin{% endblock %}
+
 {% block content %}
-<h2>Editar Mascota</h2>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="admin-btn admin-btn-primary">Actualizar</button>
-</form>
-<a href="{% url 'admin_panel:gestion_mascotas' %}">Volver</a>
+<div class="form-container">
+  <div class="form-card">
+    <h2>Editar Mascota</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <!-- Nombre -->
+      <div class="form-group">
+        <label>Nombre</label>
+        {{ form.nombre }}
+        {% if form.nombre.errors %}
+          <p class="error-message">{{ form.nombre.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Especie -->
+      <div class="form-group">
+        <label>Especie</label>
+        {{ form.especie }}
+        {% if form.especie.errors %}
+          <p class="error-message">{{ form.especie.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Raza -->
+      <div class="form-group">
+        <label>Raza</label>
+        {{ form.raza }}
+        {% if form.raza.errors %}
+          <p class="error-message">{{ form.raza.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Edad -->
+      <div class="form-group">
+        <label>Edad</label>
+        {{ form.edad }}
+        {% if form.edad.errors %}
+          <p class="error-message">{{ form.edad.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Adoptada -->
+      <div class="form-group">
+        <label>Adoptada</label>
+        {{ form.adoptada }}
+        {% if form.adoptada.errors %}
+          <p class="error-message">{{ form.adoptada.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Imagen -->
+      <div class="form-group">
+        <label>Imagen</label>
+        {{ form.imagen }}
+        {% if form.imagen.errors %}
+          <p class="error-message">{{ form.imagen.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Refugio -->
+      <div class="form-group">
+        <label>Refugio</label>
+        {{ form.refugio }}
+        {% if form.refugio.errors %}
+          <p class="error-message">{{ form.refugio.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Botones -->
+      <div class="form-group" style="display:flex; gap:10px;">
+        <button type="submit" class="btn-primary">Actualizar</button>
+        <a href="{% url 'admin_panel:gestion_mascotas' %}" class="btn-secondary" style="text-align:center; display:inline-block;">Volver</a>
+      </div>
+
+    </form>
+  </div>
+</div>
 {% endblock %}

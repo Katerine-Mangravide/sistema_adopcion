@@ -63,8 +63,8 @@ def crear_usuario(request):
 @admin_required
 # admin_panel/views.py
 
-def editar_usuario(request, usuario_id):
-    usuario = get_object_or_404(User, id=usuario_id)
+def editar_usuario(request, user_id):
+    usuario = get_object_or_404(User, id=user_id)
     adoptante = get_object_or_404(Adoptante, user=usuario)
 
     if request.method == "POST":
@@ -79,7 +79,7 @@ def editar_usuario(request, usuario_id):
         user_form = UserForm(instance=usuario)
         adoptante_form = AdoptanteForm(instance=adoptante)
 
-    return render(request, "usuarios/editar_usuario.html", {
+    return render(request, "admin_panel/editar_usuario.html", {
         "user_form": user_form,
         "adoptante_form": adoptante_form,
     })
@@ -87,14 +87,16 @@ def editar_usuario(request, usuario_id):
 
 @admin_required
 def eliminar_usuario(request, user_id):
-    # requiere POST para borrar
     if request.method != 'POST':
         messages.error(request, "Petición inválida para eliminar usuario.")
         return redirect('admin_panel:gestion_usuarios')
-    adoptante = get_object_or_404(Adoptante, id=user_id)
-    adoptante.user.delete()
+    
+    usuario = get_object_or_404(User, id=user_id)  # buscá el usuario
+    adoptante = get_object_or_404(Adoptante, user=usuario)  # su adoptante
+    usuario.delete()  # esto también elimina adoptante si tenés cascada en modelo, sino borrás manualmente adoptante
     messages.success(request, "Usuario eliminado.")
     return redirect('admin_panel:gestion_usuarios')
+
 
 
 # ---------- REFUGIOS ----------
@@ -155,7 +157,15 @@ def crear_mascota(request):
             return redirect('admin_panel:gestion_mascotas')
     else:
         form = MascotaForm()
-    return render(request, 'admin_panel/crear_mascota.html', {'form': form})
+    # 1. Obtiene todos los refugios.
+    refugios_disponibles = Refugio.objects.all() 
+    
+    # 2. Renderiza la plantilla, pasando tanto el formulario como los refugios.
+    context = {
+        'form': form,
+        'refugios': refugios_disponibles, # <- ESTO ES CLAVE para el HTML
+    }
+    return render(request, 'admin_panel/crear_mascota.html', context)
 
 @admin_required
 def editar_mascota(request, mascota_id):

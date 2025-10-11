@@ -1,0 +1,28 @@
+{% extends "usuarios/base.html" %}
+{% block title %}Solicitud de Adopción{% endblock %}
+
+{% block content %}
+<div class="form-container">
+  <div class="form-card">
+    <h2>Solicitar adopción de {{ mascota.nombre }}</h2>
+    
+    {% if mascota.imagen %}
+      <img src="{{ mascota.imagen.url }}" alt="{{ mascota.nombre }}" style="max-width:200px; border-radius:10px; margin-bottom:15px;">
+    {% endif %}
+
+    <p><strong>Especie:</strong> {{ mascota.especie }}</p>
+    <p><strong>Raza:</strong> {{ mascota.raza }}</p>
+    <p><strong>Refugio:</strong> {{ mascota.refugio.nombre }}</p>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <div class="form-group" style="margin-top:15px;">
+        <button type="submit" class="btn-primary">Enviar Solicitud</button>
+        <a href="{% url 'mascotas:lista_mascotas' %}" class="btn-secondary">Volver</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

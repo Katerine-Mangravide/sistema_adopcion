@@ -39,7 +39,7 @@
       <div class="card-content">
         <h3>{{ mascota.nombre }}</h3>
         <p>{{ mascota.especie }} • {{ mascota.raza }}</p>
-        <p class="muted">Edad: {{ mascota.edad }}</p>
+        <p class="muted">Edad: {{ mascota.edad }} años</p>
         <div class="card-actions">
           <a href="{% url 'usuarios:login' %}?next={% url 'usuarios:home' %}" class="btn-primary">Adoptar</a>
           <a href="#" class="btn-secondary">Ver detalles</a>

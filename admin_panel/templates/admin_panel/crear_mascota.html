@@ -1,11 +1,77 @@
-{% extends "usuarios/base.html" %}
-{% block title %}Crear Mascota - Admin{% endblock %}
+{% extends 'usuarios/base.html' %}
+{% load static %}
+{% block title %}Crear Mascota - AdoptaFácil{% endblock %}
+
 {% block content %}
-<h2>Crear Mascota</h2>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="admin-btn admin-btn-primary">Guardar</button>
-</form>
-<a href="{% url 'admin_panel:gestion_mascotas' %}">Volver</a>
+<div class="form-container">
+  <div class="form-card">
+    <h2>➕ Crear Mascota</h2>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <!-- Campos mascota -->
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" name="nombre" value="{{ form.nombre.value|default_if_none:'' }}">
+        {% if form.nombre.errors %}
+          <p class="error-message">{{ form.nombre.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label>Especie</label>
+        <input type="text" name="especie" value="{{ form.especie.value|default_if_none:'' }}">
+        {% if form.especie.errors %}
+          <p class="error-message">{{ form.especie.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label>Raza</label>
+        <input type="text" name="raza" value="{{ form.raza.value|default_if_none:'' }}">
+        {% if form.raza.errors %}
+          <p class="error-message">{{ form.raza.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label>Edad (en años) </label>
+        <input type="number" name="edad" value="{{ form.edad.value|default_if_none:'' }}" min="0">
+      </div>
+
+      <div class="form-group">
+        <label>Refugio</label>
+        <select name="refugio">
+          <option value="">Seleccionar refugio</option>
+          {% for r in refugios %}
+            <option value="{{ r.id }}" {% if form.refugio.value|stringformat:"s" == r.id|stringformat:"s" %}selected{% endif %}>{{ r.nombre }}</option>
+          {% endfor %}
+        </select>
+        {% if form.refugio.errors %}
+          <p class="error-message">{{ form.refugio.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label>Imagen</label>
+        <input type="file" name="imagen">
+        {% if form.imagen.errors %}
+          <p class="error-message">{{ form.imagen.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea name="descripcion">{{ form.descripcion.value|default_if_none:'' }}</textarea>
+      </div>
+
+      <!-- Botones -->
+      <div class="form-actions" style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
+        <button type="submit" class="btn-primary">Guardar</button>
+        <a href="{% url 'admin_panel:gestion_mascotas' %}" class="btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

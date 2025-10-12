@@ -1,0 +1,73 @@
+{% extends "usuarios/base.html" %}
+{% block title %}Mis Solicitudes de Adopción{% endblock %}
+
+{% block content %}
+<div class="list-container">
+    <h2>🐾 Mis Solicitudes de Adopción</h2>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if solicitudes %}
+        <div class="solicitudes-list">
+            {% for solicitud in solicitudes %}
+            <div class="solicitud-card status-{{ solicitud.estado|lower }}">
+                <div class="card-header">
+                    <h3>Solicitud para: {{ solicitud.mascota.nombre }}</h3>
+                    <span class="status-badge status-{{ solicitud.estado|lower }}">
+                        Estado: {{ solicitud.get_estado_display }}
+                    </span>
+                </div>
+
+                <div class="card-body">
+                    <h4>Datos de la mascota</h4>
+                    <div class="form-group">
+                        <label>Especie</label>
+                        <input type="text" class="form-control" value="{{ solicitud.mascota.especie }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Raza</label>
+                        <input type="text" class="form-control" value="{{ solicitud.mascota.raza }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Refugio</label>
+                        <input type="text" class="form-control" value="{{ solicitud.mascota.refugio.nombre }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Solicitud</label>
+                        <input type="text" class="form-control" value="{{ solicitud.fecha_solicitud|date:'d M Y' }}" disabled>
+                    </div>
+
+                    <hr>
+
+                    <h4>Mis datos en la solicitud</h4>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" class="form-control" value="{{ solicitud.telefono }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" class="form-control" value="{{ solicitud.direccion }}" disabled>
+                    </div>
+                </div>
+
+                <div class="card-footer" style="display:flex; gap:10px; flex-wrap: wrap;">
+                    <a href="{% url 'usuarios:home' %}" class="btn-primary" style="flex:1; text-align:center;">Ver Más Mascotas</a>
+                    <a href="{% url 'usuarios:perfil' %}" class="btn-secondary" style="flex:1; text-align:center;">Volver a Mi Perfil</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-data-message">
+            Aún no has enviado ninguna solicitud de adopción. 
+            <a href="{% url 'usuarios:home' %}" class="link-callout">¡Encuentra a tu nuevo compañero!</a>
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

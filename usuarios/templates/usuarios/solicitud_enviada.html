@@ -1,0 +1,15 @@
+{% extends "usuarios/base.html" %}
+{% block title %}Solicitud Enviada{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-card">
+        <h2>🎉 ¡Solicitud Enviada con Éxito!</h2>
+        <p>Tu solicitud de adopción ha sido registrada. Pronto el refugio se pondrá en contacto contigo.</p>
+        <div style="margin-top:20px;">
+            <a href="{% url 'usuarios:perfil' %}" class="btn-primary">Ver mis Solicitudes</a>
+            <a href="{% url 'usuarios:home' %}" class="btn-secondary">Volver al Inicio</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

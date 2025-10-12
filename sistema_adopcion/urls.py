@@ -25,6 +25,8 @@ urlpatterns = [
     path('usuarios/', include('usuarios.urls')),
     path('', lambda request: redirect('usuarios:home')),
     path('admin-web/', include('admin_panel.urls')),
+    path('mascotas/', include('mascotas.urls', namespace='mascotas')),
+
 
 
     # 👇 Esto agrega las rutas de reset sin namespace, así Django las encuentra en el mail

@@ -1,11 +1,66 @@
 {% extends "usuarios/base.html" %}
 {% block title %}Editar Solicitud - Admin{% endblock %}
+
 {% block content %}
-<h2>Editar Solicitud</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="admin-btn admin-btn-primary">Guardar</button>
-</form>
-<a href="{% url 'admin_panel:gestion_solicitudes' %}">Volver</a>
+<div class="form-container">
+    <div class="form-card">
+        <h2>Editar Solicitud</h2>
+
+        {# INICIO DEL FORMULARIO: Usa el método POST #}
+        <form method="post">
+            {% csrf_token %} 
+
+            <h4>Datos de la mascota</h4>
+            <div class="form-group">
+                <label>Mascota</label>
+                <input type="text" class="form-control" value="{{ solicitud.mascota.nombre }} ({{ solicitud.mascota.especie }})" disabled>
+            </div>
+
+            <h4>Datos del adoptante</h4>
+            <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" class="form-control" value="{{ solicitud.nombre_adoptante }}" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Apellido</label>
+                <input type="text" class="form-control" value="{{ solicitud.apellido_adoptante }}" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Teléfono</label>
+                <input type="text" class="form-control" value="{{ solicitud.telefono }}" disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" value="{{ solicitud.email }}" disabled>
+            </div>
+
+            {# Campos editables del formulario Django #}
+            <div class="form-group">
+                <label>Dirección</label>
+                {{ form.direccion }}
+                {% if form.direccion.errors %}
+                    <p class="error-message">{{ form.direccion.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Estado</label>
+                {{ form.estado }}
+                {% if form.estado.errors %}
+                    <p class="error-message">{{ form.estado.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group" style="display:flex; gap:10px;">
+                {# Este botón ahora está dentro del form y enviará los datos #}
+                <button type="submit" class="btn-primary" style="flex:1;">Guardar</button>
+                <a href="{% url 'admin_panel:gestion_solicitudes' %}" class="btn-secondary" style="flex:1; text-align:center;">Volver</a>
+            </div>
+        </form> 
+        {# FIN DEL FORMULARIO #}
+    </div>
+</div>
 {% endblock %}

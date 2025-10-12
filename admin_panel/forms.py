@@ -38,3 +38,10 @@ class SolicitudForm(forms.ModelForm):
     class Meta:
         model = SolicitudAdopcion
         fields = ['mascota', 'nombre_adoptante', 'apellido_adoptante', 'telefono', 'email', 'direccion', 'estado']
+
+# ---- Solicitud (Específico para la Edición de Admin) ----
+class SolicitudAdminForm(forms.ModelForm):
+    class Meta:
+        model = SolicitudAdopcion
+        # Solo necesitamos los campos que el administrador va a cambiar
+        fields = ['direccion', 'estado'] 

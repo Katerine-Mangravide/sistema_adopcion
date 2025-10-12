@@ -10,7 +10,7 @@ from mascotas.models import Mascota, Refugio, SolicitudAdopcion
 
 from .forms import (
     CrearUsuarioForm, EditarUsuarioForm, EditarUserForm,
-    RefugioForm, MascotaForm, SolicitudForm
+    RefugioForm, MascotaForm, SolicitudForm, SolicitudAdminForm
 )
 
 # Decorator: solo staff (admin)
@@ -219,3 +219,21 @@ def eliminar_solicitud(request, solicitud_id):
     solicitud.delete()
     messages.success(request, "Solicitud eliminada.")
     return redirect('admin_panel:gestion_solicitudes')
+
+# admin_panel/views.py
+
+@admin_required
+def editar_solicitud(request, solicitud_id):
+    solicitud = get_object_or_404(SolicitudAdopcion, id=solicitud_id)
+    if request.method == 'POST':
+        # CAMBIO CLAVE: Usar el formulario con menos campos
+        form = SolicitudAdminForm(request.POST, instance=solicitud) 
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Solicitud actualizada.")
+            return redirect('admin_panel:gestion_solicitudes')
+    else:
+        # CAMBIO CLAVE: Usar el formulario con menos campos
+        form = SolicitudAdminForm(instance=solicitud) 
+
+    return render(request, 'admin_panel/editar_solicitud.html', {'form': form, 'solicitud': solicitud})

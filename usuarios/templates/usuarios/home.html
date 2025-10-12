@@ -40,10 +40,18 @@
         <h3>{{ mascota.nombre }}</h3>
         <p>{{ mascota.especie }} • {{ mascota.raza }}</p>
         <p class="muted">Edad: {{ mascota.edad }} años</p>
-        <div class="card-actions">
-          <a href="{% url 'usuarios:login' %}?next={% url 'usuarios:home' %}" class="btn-primary">Adoptar</a>
-          <a href="#" class="btn-secondary">Ver detalles</a>
-        </div>
+<div class="card-actions">
+    {% if user.is_authenticated %}
+        <a href="{% url 'mascotas:solicitar_adopcion' mascota.id %}" class="btn-primary">
+            Adoptar
+        </a>
+    {% else %}
+        <a href="{% url 'usuarios:login' %}?next={% url 'mascotas:solicitar_adopcion' mascota.id %}" class="btn-primary">
+            Adoptar
+        </a>
+    {% endif %}
+    <a href="#" class="btn-secondary">Ver detalles</a>
+</div>
       </div>
     </div>
   {% empty %}

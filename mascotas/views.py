@@ -30,8 +30,9 @@ def solicitar_adopcion(request, mascota_id):
             solicitud.direccion = form.cleaned_data['direccion']
             solicitud.save()
             messages.success(request, "Tu solicitud de adopción fue enviada con éxito.")
-            return redirect('mascotas:detalle_mascota', mascota_id=mascota.id)
+            return redirect('uusuarios:solicitud_enviada')
     else:
         form = SolicitudAdopcionForm(initial={'telefono': adoptante.telefono, 'direccion': adoptante.direccion})
+        
 
-    return render(request, 'mascotas/solicitar_adopcion.html', {'form': form, 'mascota': mascota})
+    return render(request, 'mascotas/solicitar_adopcion.html', {'form': form, 'mascota': mascota, 'adoptante': adoptante})

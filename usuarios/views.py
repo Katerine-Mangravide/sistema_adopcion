@@ -9,7 +9,7 @@ from django.http import HttpResponse
 import json, csv
 from .forms import RegistroForm, UserForm, AdoptanteForm
 from .models import Adoptante
-from mascotas.models import Mascota
+from mascotas.models import Mascota, SolicitudAdopcion
 from django.contrib.admin.views.decorators import staff_member_required
 
 
@@ -196,3 +196,15 @@ def admin_dashboard(request):
     para mostrar estadísticas, links directos a modelos, etc.
     """
     return render(request, 'usuarios/admin_dashboard.html')
+
+@login_required
+def solicitud_enviada(request):
+    return render(request, 'usuarios/solicitud_enviada.html')
+
+@login_required
+def mis_solicitudes(request):
+    # Obtiene todas las solicitudes hechas por el email del usuario logueado
+    solicitudes = SolicitudAdopcion.objects.filter(email=request.user.email).order_by('-fecha_solicitud')
+
+    contexto = {'solicitudes': solicitudes}
+    return render(request, 'usuarios/mis_solicitudes.html', contexto)

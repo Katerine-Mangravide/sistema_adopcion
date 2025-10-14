@@ -1,35 +1,130 @@
-{% extends 'base.html' %} 
+{% extends 'usuarios/base.html' %}
+{% load static %}
+
 {% block title %}Editar {{ mascota.nombre }}{% endblock %}
 
 {% block content %}
 <div class="page-header">
-    <h1>Editar Mascota: {{ mascota.nombre }}</h1>
-    <p class="lead">Actualiza la información de la mascota.</p>
-    <a href="{% url 'mascotas:lista_mascotas_refugio' %}" class="btn btn-secondary">← Volver a Mis Mascotas</a>
+    <h1>✏️ Editar Mascota: {{ mascota.nombre }}</h1>
+    <p class="lead">Actualiza la información de la mascota en tu refugio.</p>
+    <div class="page-actions">
+        <a href="{% url 'mascotas:lista_mascotas_refugio' %}" class="btn btn-secondary">← Volver a Mis Mascotas</a>
+    </div>
 </div>
 
-<div class="form-container form-card">
+<div class="form-card animated-card p-4 shadow-sm rounded bg-white">
+    
     {% if mascota.imagen %}
-    <div class="current-image-preview">
-        <img src="{{ mascota.imagen.url }}" alt="Imagen actual de {{ mascota.nombre }}" style="max-width: 200px; height: auto; border-radius: 8px; margin-bottom: 15px;">
-        <p>Imagen actual</p>
+    <div class="current-image mb-3 text-center">
+        <img src="{{ mascota.imagen.url }}" alt="Imagen de {{ mascota.nombre }}" class="img-thumbnail" style="max-width: 200px;">
+        <p class="text-muted mt-2">Imagen actual</p>
     </div>
     {% endif %}
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        
+
         {% if form.errors %}
-            <div class="alert alert-danger">
-                Por favor, corrige los siguientes errores:
-                {{ form.errors }}
-            </div>
+        <div class="alert alert-danger">
+            <strong>¡Atención!</strong> Corrige los siguientes errores:
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
         {% endif %}
 
         {{ form.as_p }}
-        
-        <button type="submit" class="btn-primary">Guardar Cambios</button>
-        <a href="{% url 'mascotas:eliminar_mascota_refugio' mascota.id %}" class="btn-danger float-right">Eliminar Mascota</a>
+
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+            <a href="{% url 'mascotas:eliminar_mascota_refugio' mascota.id %}" class="btn btn-delete" onclick="return confirm('¿Estás segura de eliminar a {{ mascota.nombre }}? Esta acción es irreversible.');">🗑️ Eliminar Mascota</a>
+        </div>
     </form>
 </div>
+
+<style>
+/* Animación */
+.animated-card {
+    animation: fadeIn 0.7s ease;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Encabezado */
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.page-header h1 {
+    font-size: 2rem;
+    color: #333;
+}
+.page-header .lead {
+    color: #666;
+}
+.page-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Formulario */
+.form-card {
+    max-width: 600px;
+    margin: 0 auto;
+}
+.current-image img {
+    border-radius: 8px;
+    border: 2px solid #ddd;
+}
+
+/* Botones */
+.btn, .btn-sm {
+    display: inline-block;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+.btn-secondary {
+    background-color: #f0f0f0;
+    color: #333;
+}
+.btn-secondary:hover {
+    background-color: #ddd;
+}
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Alertas */
+.alert {
+    text-align: left;
+    background-color: #f8d7da;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: #721c24;
+}
+</style>
 {% endblock %}

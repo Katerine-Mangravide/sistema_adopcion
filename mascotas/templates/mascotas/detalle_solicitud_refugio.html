@@ -1,59 +1,77 @@
-{% extends 'base.html' %} 
+{% extends 'usuarios/base.html' %}
 {% block title %}Detalle Solicitud #{{ solicitud.id }}{% endblock %}
 
 {% block content %}
-<div class="page-header">
+<div class="page-header mb-4">
     <h1>Solicitud de Adopción #{{ solicitud.id }}</h1>
-    <p class="lead">Revisión de la solicitud para **{{ solicitud.mascota.nombre }}**</p>
+    <p class="lead">Revisión de la solicitud para <strong>{{ solicitud.mascota.nombre }}</strong></p>
     <a href="{% url 'mascotas:gestion_solicitudes_refugio' %}" class="btn btn-secondary">← Volver al Listado</a>
 </div>
 
-<div class="solicitud-grid">
-    <div class="card card-solicitante">
-        <h3>Datos del Solicitante</h3>
-        <p><strong>Nombre completo:</strong> {{ solicitud.nombre_adoptante }} {{ solicitud.apellido_adoptante }}</p>
-        <p><strong>Email:</strong> {{ solicitud.email }}</p>
-        <p><strong>Teléfono:</strong> {{ solicitud.telefono }}</p>
-        <p><strong>Dirección:</strong> {{ solicitud.direccion }}</p>
-        <p><strong>Fecha de Solicitud:</strong> {{ solicitud.fecha_solicitud|date:"d/m/Y" }}</p>
+<div class="solicitud-grid" style="display:flex; flex-wrap:wrap; gap:20px;">
+    
+    <!-- Datos del Solicitante -->
+    <div class="card card-solicitante" style="flex:1 1 300px; padding:20px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+        <div class="card-header">
+            <h3>Datos del Solicitante</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Nombre completo:</strong> {{ solicitud.nombre_adoptante }} {{ solicitud.apellido_adoptante }}</p>
+            <p><strong>Email:</strong> {{ solicitud.email }}</p>
+            <p><strong>Teléfono:</strong> {{ solicitud.telefono }}</p>
+            <p><strong>Dirección:</strong> {{ solicitud.direccion }}</p>
+            <p><strong>Fecha de Solicitud:</strong> {{ solicitud.fecha_solicitud|date:"d/m/Y" }}</p>
+        </div>
     </div>
 
-    <div class="card card-mascota">
-        <h3>Mascota Solicitada</h3>
-        <p><strong>Nombre:</strong> <a href="{% url 'mascotas:detalle_mascota' solicitud.mascota.id %}">{{ solicitud.mascota.nombre }}</a></p>
-        <p><strong>Refugio:</strong> {{ solicitud.mascota.refugio.nombre }}</p>
-        <p><strong>Especie:</strong> {{ solicitud.mascota.especie }}</p>
-        <p><strong>Raza:</strong> {{ solicitud.mascota.raza|default:"N/A" }}</p>
-        <p><strong>Edad:</strong> {{ solicitud.mascota.edad }} años</p>
+    <!-- Datos de la Mascota -->
+    <div class="card card-mascota" style="flex:1 1 300px; padding:20px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+        <div class="card-header">
+            <h3>Mascota Solicitada</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Nombre:</strong> <a href="{% url 'mascotas:detalle_mascota' solicitud.mascota.id %}">{{ solicitud.mascota.nombre }}</a></p>
+            <p><strong>Refugio:</strong> {{ solicitud.mascota.refugio.nombre }}</p>
+            <p><strong>Especie:</strong> {{ solicitud.mascota.especie }}</p>
+            <p><strong>Raza:</strong> {{ solicitud.mascota.raza|default:"N/A" }}</p>
+            <p><strong>Edad:</strong> {{ solicitud.mascota.edad }} años</p>
+        </div>
     </div>
 
-    <div class="card card-gestion">
-        <h3>Gestión de Estado</h3>
-        <p><strong>Estado Actual:</strong> <span class="badge badge-{{ solicitud.estado }}">{{ solicitud.get_estado_display }}</span></p>
+    <!-- Gestión de Estado -->
+    <div class="card card-gestion" style="flex:1 1 300px; padding:20px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+        <div class="card-header">
+            <h3>Gestión de Estado</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Estado Actual:</strong> 
+                <span class="badge badge-{{ solicitud.estado }}">{{ solicitud.get_estado_display }}</span>
+            </p>
 
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="{{ form.estado.id_for_label }}">Cambiar Estado:</label>
-                {{ form.estado }}
-            </div>
-            
-            <button type="submit" class="btn-primary">Guardar Estado</button>
-        </form>
-        
-        {% if solicitud.estado == 'aprobada' %}
-            <div class="alert alert-success mt-3">
-                Esta solicitud está **APROBADA**. La mascota ha sido marcada como adoptada en el sistema.
-            </div>
-        {% elif solicitud.estado == 'rechazada' %}
-            <div class="alert alert-danger mt-3">
-                Esta solicitud fue **RECHAZADA**.
-            </div>
-        {% else %}
-            <div class="alert alert-info mt-3">
-                Pendiente de revisión. Por favor, selecciona un estado final.
-            </div>
-        {% endif %}
+            <form method="post" class="mt-3">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="{{ form.estado.id_for_label }}">Cambiar Estado:</label>
+                    {{ form.estado }}
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar Estado</button>
+            </form>
+
+            {% if solicitud.estado == 'aprobada' %}
+                <div class="alert alert-success mt-3">
+                    Esta solicitud está <strong>APROBADA</strong>. La mascota ha sido marcada como adoptada en el sistema.
+                </div>
+            {% elif solicitud.estado == 'rechazada' %}
+                <div class="alert alert-danger mt-3">
+                    Esta solicitud fue <strong>RECHAZADA</strong>.
+                </div>
+            {% else %}
+                <div class="alert alert-info mt-3">
+                    Pendiente de revisión. Por favor, selecciona un estado final.
+                </div>
+            {% endif %}
+        </div>
     </div>
+
 </div>
 {% endblock %}

@@ -1,62 +1,289 @@
 {% extends 'usuarios/base.html' %}
-{% load static %}
-{% block title %}Catálogo - AdoptaFácil{% endblock %}
+{% block title %}AdoptaFácil - Encuentra tu Compañero Perfecto{% endblock %}
+
 {% block content %}
+<style>
+    .hero-section {
+        text-align: center;
+        padding: 60px 20px 30px;
+        background: linear-gradient(135deg, #e8f1ff, #fef6ff);
+        border-radius: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    }
 
-<h2>Catálogo de Mascotas 🐾</h2>
+    .hero-section h2 {
+        font-size: 2.3rem;
+        font-weight: 700;
+        color: #2c3e50;
+    }
 
-<form method="get" class="busqueda">
-  <input type="text" name="q" placeholder="Buscar por nombre o raza" value="{{ request.GET.q|default:'' }}">
-  <select name="especie">
-    <option value="">Especie</option>
-    {% for e in especies %}
-      <option value="{{ e }}" {% if request.GET.especie == e %}selected{% endif %}>{{ e }}</option>
-    {% endfor %}
-  </select>
-  <select name="raza">
-    <option value="">Raza</option>
-    {% for r in razas %}
-      <option value="{{ r }}" {% if request.GET.raza == r %}selected{% endif %}>{{ r }}</option>
-    {% endfor %}
-  </select>
-  <select name="ciudad">
-    <option value="">Ciudad</option>
-    {% for c in ciudades %}
-      <option value="{{ c }}" {% if request.GET.ciudad == c %}selected{% endif %}>{{ c }}</option>
-    {% endfor %}
-  </select>
-  <button class="btn" type="submit">Filtrar</button>
+    .hero-section p {
+        font-size: 1.1rem;
+        color: #555;
+        margin-top: 8px;
+    }
+
+    /* Filtros */
+    .busqueda-moderna {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 40px;
+        background: white;
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .input-container {
+        position: relative;
+    }
+
+    .input-container i {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        color: #999;
+    }
+
+    .input-container input {
+        padding: 10px 10px 10px 35px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        width: 220px;
+        transition: all 0.3s ease;
+    }
+
+    .input-container input:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 6px rgba(74,144,226,0.2);
+    }
+
+    .select-filter {
+        border-radius: 12px;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .select-filter:hover, .select-filter:focus {
+        border-color: #4a90e2;
+    }
+
+    .btn-primary, .btn-secondary {
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 10px 18px;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background: #4a90e2;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #3578c4;
+    }
+
+    .btn-secondary {
+        background: #eaeaea;
+        color: #333;
+    }
+
+    .btn-secondary:hover {
+        background: #d5d5d5;
+    }
+
+    /* Catálogo */
+    .catalogo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 25px;
+        padding: 0 10px 60px;
+    }
+
+    .mascota-card {
+        background: white;
+        border-radius: 18px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .mascota-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .card-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+
+    .card-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255,255,255,0.9);
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        color: #555;
+    }
+
+    .card-content {
+        padding: 18px;
+    }
+
+    .mascota-nombre {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+
+    .mascota-info {
+        font-size: 0.95rem;
+        color: #666;
+        margin-bottom: 14px;
+    }
+
+    .mascota-info p {
+        margin: 4px 0;
+    }
+
+    .card-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .btn-small {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+        border-radius: 10px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .no-results {
+        text-align: center;
+        margin: 60px auto;
+        color: #777;
+    }
+
+    .no-results i {
+        font-size: 2.5rem;
+        color: #4a90e2;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="hero-section">
+    <h2>🐾 Encuentra a tu Nuevo Mejor Amigo</h2>
+    <p>Explorá los perfiles de mascotas que buscan un hogar lleno de amor y compañía.</p>
+</div>
+
+<form method="get" class="busqueda-moderna">
+    <div class="input-container">
+        <i class="fas fa-search"></i>
+        <input type="text" name="q" placeholder="Buscar por nombre, raza o descripción" value="{{ request.GET.q|default:'' }}">
+    </div>
+
+    <select name="especie" class="select-filter">
+        <option value="">Especie</option>
+        {% for e in especies %}
+            <option value="{{ e }}" {% if request.GET.especie == e %}selected{% endif %}>{{ e }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="raza" class="select-filter">
+        <option value="">Raza</option>
+        {% for r in razas %}
+            <option value="{{ r }}" {% if request.GET.raza == r %}selected{% endif %}>{{ r }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="ciudad" class="select-filter">
+        <option value="">Ubicación</option>
+        {% for c in ciudades %}
+            <option value="{{ c }}" {% if request.GET.ciudad == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="sexo" class="select-filter">
+        <option value="">Sexo</option>
+        <option value="Macho" {% if request.GET.sexo == 'Macho' %}selected{% endif %}>Macho</option>
+        <option value="Hembra" {% if request.GET.sexo == 'Hembra' %}selected{% endif %}>Hembra</option>
+    </select>
+
+    <button class="btn-primary" type="submit">
+        <i class="fas fa-filter"></i> Filtrar
+    </button>
+    <a href="{% url 'usuarios:home' %}" class="btn-secondary">Limpiar</a>
 </form>
 
-<div class="catalogo">
-  {% for mascota in mascotas %}
-    <div class="card">
-      {% if mascota.imagen %}
-        <img src="{{ mascota.imagen.url }}" alt="{{ mascota.nombre }}">
-      {% else %}
-        <img src="https://picsum.photos/400/250?random={{ forloop.counter }}" alt="Mascota">
-      {% endif %}
-      <div class="card-content">
-        <h3>{{ mascota.nombre }}</h3>
-        <p>{{ mascota.especie }} • {{ mascota.raza }}</p>
-        <p class="muted">Edad: {{ mascota.edad }} años</p>
-<div class="card-actions">
-    {% if user.is_authenticated %}
-        <a href="{% url 'mascotas:solicitar_adopcion' mascota.id %}" class="btn-primary">
-            Adoptar
-        </a>
-    {% else %}
-        <a href="{% url 'usuarios:login' %}?next={% url 'mascotas:solicitar_adopcion' mascota.id %}" class="btn-primary">
-            Adoptar
-        </a>
-    {% endif %}
-    <a href="#" class="btn-secondary">Ver detalles</a>
-</div>
-      </div>
-    </div>
-  {% empty %}
-    <p>No hay mascotas disponibles ahora mismo.</p>
-  {% endfor %}
-</div>
+<div class="catalogo-grid">
+    {% for mascota in mascotas %}
+        <div class="mascota-card">
+            <div class="card-badge">
+                {% if mascota.sexo == 'Macho' %}
+                    <i class="fas fa-mars" title="Macho"></i>
+                {% elif mascota.sexo == 'Hembra' %}
+                    <i class="fas fa-venus" title="Hembra"></i>
+                {% endif %}
+            </div>
+    
+{% load static %}
 
+<img src="{{ MEDIA_URL }}mascotas/placeholder.png" alt="Mascota sin foto" class="card-img">
+
+
+
+            <div class="card-content">
+                <h3 class="mascota-nombre">{{ mascota.nombre }}</h3>
+
+                <div class="mascota-info">
+                    <p><i class="fas fa-tag"></i> {{ mascota.especie }} • {{ mascota.raza }}</p>
+                    <p><i class="fas fa-calendar-alt"></i> Edad: {{ mascota.edad }} años</p>
+                    <p><i class="fas fa-map-marker-alt"></i> {{ mascota.refugio.direccion|default:"Ubicación Desconocida" }}</p>
+                </div>
+
+                <div class="card-actions">
+                    <a href="{% url 'mascotas:detalle_mascota' mascota.id %}" class="btn-secondary btn-small">
+                        Detalles
+                    </a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'mascotas:solicitar_adopcion' mascota.id %}" class="btn-primary btn-small">
+                            Adoptar Ahora
+                        </a>
+                    {% else %}
+                        <a href="{% url 'usuarios:login' %}?next={% url 'mascotas:solicitar_adopcion' mascota.id %}" class="btn-primary btn-small">
+                            Adoptar
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="no-results">
+            <i class="far fa-sad-tear"></i>
+            <p>Lo sentimos, no encontramos mascotas con esos filtros.<br>¡Probá con otros criterios!</p>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}

@@ -1,0 +1,184 @@
+{% extends 'usuarios/base.html' %}
+{% block title %}Gestión de Solicitudes - {{ refugio_nombre }}{% endblock %}
+
+{% block content %}
+<style>
+    .solicitudes-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 18px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .solicitudes-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .solicitudes-header h1 {
+        font-size: 2rem;
+        color: #333;
+        font-weight: 700;
+    }
+
+    .solicitudes-header p {
+        color: #666;
+        font-size: 1rem;
+        margin-top: 8px;
+    }
+
+    .btn-volver {
+        background: #e9f2ff;
+        color: #0a58ca;
+        border: none;
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-volver:hover {
+        background: #0a58ca;
+        color: white;
+    }
+
+    .tabla-solicitudes {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .tabla-solicitudes th {
+        background: #f2f7ff;
+        color: #333;
+        font-weight: 600;
+        padding: 12px;
+        border-bottom: 2px solid #dce5f7;
+    }
+
+    .tabla-solicitudes td {
+        padding: 12px;
+        border-bottom: 1px solid #f1f1f1;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .fila-pendiente {
+        background-color: #fff9e6;
+    }
+
+    .fila-aprobada {
+        background-color: #e9ffe9;
+    }
+
+    .fila-rechazada {
+        background-color: #ffe9e9;
+    }
+
+    .badge-estado {
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .estado-pendiente {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .estado-aprobada {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .estado-rechazada {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+
+    .btn-revisar {
+        background: #5a9cf0;
+        color: white;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-revisar:hover {
+        background: #407ed4;
+    }
+
+    .alerta-vacia {
+        background-color: #f2f7ff;
+        color: #5a5a5a;
+        border: 1px dashed #cdd9f1;
+        padding: 20px;
+        text-align: center;
+        border-radius: 14px;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="solicitudes-container">
+    <div class="solicitudes-header">
+        <h1>Solicitudes de Adopción</h1>
+        <p>Gestioná las solicitudes de tus mascotas en <strong>{{ refugio_nombre }}</strong></p>
+        <a href="{% url 'usuarios:panel_refugio' %}" class="btn-volver">← Volver al Panel</a>
+    </div>
+
+    {% if solicitudes %}
+        <table class="tabla-solicitudes">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Mascota</th>
+                    <th>Adoptante</th>
+                    <th>Email</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in solicitudes %}
+                <tr class="
+                    {% if solicitud.estado == 'pendiente' %}fila-pendiente
+                    {% elif solicitud.estado == 'aprobada' %}fila-aprobada
+                    {% else %}fila-rechazada{% endif %}
+                ">
+                    <td>#{{ solicitud.id }}</td>
+                    <td>{{ solicitud.mascota.nombre }} ({{ solicitud.mascota.especie }})</td>
+                    <td>{{ solicitud.nombre_adoptante }} {{ solicitud.apellido_adoptante }}</td>
+                    <td>{{ solicitud.email }}</td>
+                    <td>{{ solicitud.fecha_solicitud|date:"d/m/Y" }}</td>
+                    <td>
+                        <span class="badge-estado 
+                            {% if solicitud.estado == 'pendiente' %}estado-pendiente
+                            {% elif solicitud.estado == 'aprobada' %}estado-aprobada
+                            {% else %}estado-rechazada{% endif %}
+                        ">
+                            {{ solicitud.get_estado_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'mascotas:detalle_solicitud_refugio' solicitud.id %}" class="btn-revisar">Revisar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alerta-vacia">
+            No hay solicitudes de adopción registradas para tus mascotas.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

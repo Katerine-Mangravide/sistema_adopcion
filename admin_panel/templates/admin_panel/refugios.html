@@ -17,8 +17,8 @@
       <td>{{ r.telefono }}</td>
       <td>{{ r.email }}</td>
       <td>
-        <a class="admin-btn admin-btn-secondary" href="{% url 'admin_panel:editar_refugio' r.id %}">Editar</a>
-        <form method="post" action="{% url 'admin_panel:eliminar_refugio' r.id %}" style="display:inline;">
+        <a class="admin-btn admin-btn-secondary" href="{% url 'admin_panel:editar_refugio' r.usuario_id %}">Editar</a>
+        <form method="post" action="{% url 'admin_panel:eliminar_refugio' r.usuario_id %}" style="display:inline;">
           {% csrf_token %}
           <button class="admin-btn admin-btn-danger" type="submit">Eliminar</button>
         </form>

@@ -1,0 +1,151 @@
+{% extends 'usuarios/base.html' %}
+{% load static %}
+
+{% block title %}Añadir Mascota{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🐶 Añadir Nueva Mascota</h1>
+    <p class="lead">Completa el formulario para publicar una mascota en adopción y ayudarla a encontrar un hogar.</p>
+    <div class="page-actions">
+        <a href="{% url 'mascotas:lista_mascotas_refugio' %}" class="btn btn-secondary">← Volver a Mis Mascotas</a>
+    </div>
+</div>
+
+<div class="form-container animated-card">
+    <div class="form-card">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>⚠️ Por favor, corrige los siguientes errores:</strong>
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Registrar Mascota</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+/* Animación sutil */
+.animated-card {
+    animation: fadeIn 0.7s ease;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Encabezado */
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.page-header h1 {
+    font-size: 2rem;
+    color: #333;
+}
+.page-header .lead {
+    color: #666;
+    max-width: 650px;
+    margin: 0 auto 15px auto;
+}
+.page-actions {
+    margin-top: 15px;
+}
+
+/* Formulario */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 650px;
+}
+.form-fields p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+.form-fields label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+.form-fields input[type="text"],
+.form-fields input[type="email"],
+.form-fields input[type="number"],
+.form-fields input[type="file"],
+.form-fields select,
+.form-fields textarea {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.form-fields input:focus,
+.form-fields select:focus,
+.form-fields textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.3);
+    outline: none;
+}
+
+/* Acciones */
+.form-actions {
+    text-align: center;
+    margin-top: 25px;
+}
+.btn {
+    display: inline-block;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+.btn-secondary {
+    background-color: #f0f0f0;
+    color: #333;
+}
+.btn-secondary:hover {
+    background-color: #ddd;
+}
+
+/* Alerta de errores */
+.alert {
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #842029;
+    font-size: 0.95rem;
+}
+</style>
+{% endblock %}

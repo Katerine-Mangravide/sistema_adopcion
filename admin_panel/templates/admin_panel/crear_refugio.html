@@ -4,54 +4,93 @@
 
 {% block content %}
 <div class="form-container">
-  <div class="form-card">
-    <h2>➕ Crear Refugio</h2>
+    <div class="form-card">
+        <h2>➕ Crear Refugio</h2>
 
-    <form method="post">
-      {% csrf_token %}
+        <form method="post">
+            {% csrf_token %}
 
-      <!-- Nombre del refugio -->
-      <div class="form-group">
-        <label>Nombre</label>
-        <input type="text" name="nombre" value="{{ form.nombre.value|default_if_none:'' }}">
-        {% if form.nombre.errors %}
-          <p class="error-message">{{ form.nombre.errors.0 }}</p>
-        {% endif %}
-      </div>
+            <div class="form-group">
+                <label>Nombre de usuario</label>
+                <input type="text" name="username" value="{{ user_form.username.value|default_if_none:'' }}">
+                {% if user_form.username.errors %}
+                    <p class="error-message">{{ user_form.username.errors.0 }}</p>
+                {% endif %}
+            </div>
 
-      <!-- Dirección -->
-      <div class="form-group">
-        <label>Dirección</label>
-        <input type="text" name="direccion" value="{{ form.direccion.value|default_if_none:'' }}">
-        {% if form.direccion.errors %}
-          <p class="error-message">{{ form.direccion.errors.0 }}</p>
-        {% endif %}
-      </div>
+            <div class="form-group-duo">
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" name="password">
+                    {% if user_form.password.errors %}
+                        <p class="error-message">{{ user_form.password.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>Confirmar Contraseña</label>
+                    <input type="password" name="password2">
+                    {% if user_form.password2.errors %}
+                        <p class="error-message">{{ user_form.password2.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
 
-      <!-- Teléfono -->
-      <div class="form-group">
-        <label>Teléfono</label>
-        <input type="text" name="telefono" value="{{ form.telefono.value|default_if_none:'' }}">
-        {% if form.telefono.errors %}
-          <p class="error-message">{{ form.telefono.errors.0 }}</p>
-        {% endif %}
-      </div>
+            <div class="form-group-duo">
+                <div class="form-group">
+                    <label>Nombre (Contacto)</label>
+                    <input type="text" name="first_name" value="{{ user_form.first_name.value|default_if_none:'' }}">
+                    {% if user_form.first_name.errors %}
+                        <p class="error-message">{{ user_form.first_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label>Apellido (Contacto)</label>
+                    <input type="text" name="last_name" value="{{ user_form.last_name.value|default_if_none:'' }}">
+                    {% if user_form.last_name.errors %}
+                        <p class="error-message">{{ user_form.last_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <input type="email" name="email" value="{{ user_form.email.value|default_if_none:'' }}">
+                {% if user_form.email.errors %}
+                    <p class="error-message">{{ user_form.email.errors.0 }}</p>
+                {% endif %}
+            </div>
 
-      <!-- Correo electrónico -->
-      <div class="form-group">
-        <label>Correo electrónico</label>
-        <input type="email" name="email" value="{{ form.email.value|default_if_none:'' }}">
-        {% if form.email.errors %}
-          <p class="error-message">{{ form.email.errors.0 }}</p>
-        {% endif %}
-      </div>
 
-      <!-- Botones -->
-      <div class="form-actions" style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
-        <button type="submit" class="btn-primary">Guardar</button>
-        <a href="{% url 'admin_panel:gestion_refugios' %}" class="btn-secondary">Cancelar</a>
-      </div>
-    </form>
-  </div>
+            <div class="form-group">
+                <label>Nombre del Refugio</label>
+                <input type="text" name="nombre" value="{{ refugio_form.nombre.value|default_if_none:'' }}">
+                {% if refugio_form.nombre.errors %}
+                    <p class="error-message">{{ refugio_form.nombre.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Dirección</label>
+                <input type="text" name="direccion" value="{{ refugio_form.direccion.value|default_if_none:'' }}">
+                {% if refugio_form.direccion.errors %}
+                    <p class="error-message">{{ refugio_form.direccion.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Teléfono</label>
+                <input type="text" name="telefono" value="{{ refugio_form.telefono.value|default_if_none:'' }}">
+                {% if refugio_form.telefono.errors %}
+                    <p class="error-message">{{ refugio_form.telefono.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+
+            <div class="form-actions" style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
+                <button type="submit" class="btn-primary">Guardar</button>
+                <a href="{% url 'admin_panel:gestion_refugios' %}" class="btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

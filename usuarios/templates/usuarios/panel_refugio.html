@@ -1,0 +1,246 @@
+{% extends 'usuarios/base.html' %}
+{% load static %}
+
+{% block title %}Panel de Refugio - {{ refugio.nombre }}{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="header-card">
+        <h1>🐾 Panel de Control del Refugio</h1>
+        <h2 class="refugio-name">{{ refugio.nombre }}</h2>
+        <p class="welcome-text">
+            Bienvenido/a, <strong>{{ request.user.first_name }}</strong> 👋<br>
+            Desde aquí puedes gestionar tus mascotas, revisar solicitudes y mantener al día tu perfil.
+        </p>
+    </div>
+
+    <div class="refugio-dashboard-grid">
+        <div class="card summary-card">
+            <div class="card-icon">🐶</div>
+            <h3>Mascotas Publicadas</h3>
+            <p class="count">{{ conteo_mascotas }}</p>
+            <div class="card-actions">
+                <a href="{% url 'mascotas:lista_mascotas_refugio' %}" class="btn btn-secondary">Ver Mis Mascotas</a>
+                <a href="{% url 'mascotas:agregar_mascota_refugio' %}" class="btn btn-primary">Añadir Nueva Mascota</a>
+            </div>
+        </div>
+
+        <div class="card summary-card {% if solicitudes_pendientes %}card-warning{% endif %}">
+            <div class="card-icon">📩</div>
+            <h3>Solicitudes Pendientes</h3>
+            <p class="count">{{ conteo_solicitudes }}</p>
+            {% if solicitudes_pendientes %}
+                <p class="attention">
+                    ⚠️ Tienes <strong>{{ conteo_solicitudes }}</strong> solicitudes nuevas que revisar.
+                </p>
+            {% else %}
+                <p class="text-success">✅ ¡Todo al día! No hay solicitudes pendientes.</p>
+            {% endif %}
+            <div class="card-actions">
+                <a href="{% url 'mascotas:gestion_solicitudes_refugio' %}" class="btn btn-primary">Gestionar Solicitudes</a>
+            </div>
+        </div>
+
+        <div class="card profile-card">
+            <div class="card-icon">🏠</div>
+            <h3>Mi Perfil</h3>
+            <p>Administra la información de tu refugio y mantenla actualizada.</p>
+            <a href="{% url 'usuarios:editar_perfil_refugio' %}" class="btn btn-secondary">Editar Datos</a>
+        </div>
+    </div>
+
+    {% if solicitudes_pendientes %}
+    <div class="solicitudes-section">
+        <h3>📋 Últimas Solicitudes Pendientes</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Mascota</th>
+                    <th>Adoptante</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in solicitudes_pendientes %}
+                <tr>
+                    <td>{{ solicitud.mascota.nombre }}</td>
+                    <td>{{ solicitud.nombre_adoptante }}</td>
+                    <td>{{ solicitud.fecha_solicitud|date:"d M Y" }}</td>
+                    <td>
+                        <a href="{% url 'mascotas:detalle_solicitud_refugio' solicitud.id %}" class="btn-sm">
+                            Revisar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.dashboard-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px;
+    color: #333;
+    animation: fadeIn 0.8s ease-in;
+}
+
+.header-card {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header-card h1 {
+    color: #2b7a78;
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.refugio-name {
+    font-size: 1.6rem;
+    color: #3aafa9;
+    margin-bottom: 10px;
+}
+
+.welcome-text {
+    color: #555;
+    font-size: 1.1rem;
+}
+
+.refugio-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.card-icon {
+    font-size: 2.3rem;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    color: #17252a;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+}
+
+.count {
+    font-size: 2rem;
+    color: #3aafa9;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.card-warning {
+    border-top: 4px solid #ffb703;
+}
+
+.attention {
+    background-color: #fff7e6;
+    color: #a66a00;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+}
+
+.text-success {
+    color: #2e8b57;
+}
+
+.card-actions {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #3aafa9;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #2b7a78;
+}
+
+.btn-secondary {
+    background-color: #def2f1;
+    color: #17252a;
+}
+
+.btn-secondary:hover {
+    background-color: #cfe9e8;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.data-table th, .data-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.data-table th {
+    background-color: #3aafa9;
+    color: white;
+    font-weight: 600;
+}
+
+.data-table tr:hover {
+    background-color: #f7fafa;
+}
+
+.btn-sm {
+    background-color: #3aafa9;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.btn-sm:hover {
+    background-color: #2b7a78;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+{% endblock %}

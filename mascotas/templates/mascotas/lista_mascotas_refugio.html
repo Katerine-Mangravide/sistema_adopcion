@@ -1,0 +1,237 @@
+{% extends 'usuarios/base.html' %}
+{% load static %}
+
+{% block title %}Mis Mascotas - {{ refugio.nombre }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🐾 Mascotas Publicadas por {{ refugio.nombre }}</h1>
+    <p class="lead">Aquí puedes ver y gestionar las mascotas que has subido al sistema.</p>
+    
+    <div class="page-actions">
+        <a href="{% url 'usuarios:panel_refugio' %}" class="btn btn-secondary">← Volver al Panel</a>
+        <a href="{% url 'mascotas:agregar_mascota_refugio' %}" class="btn btn-primary">+ Añadir Nueva Mascota</a>
+    </div>
+</div>
+
+{% if mascotas %}
+    <div class="table-container animated-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Especie</th>
+                    <th>Estado Adopción</th>
+                    <th>Fecha Ingreso</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mascota in mascotas %}
+                <tr>
+                    <td class="image-cell">
+                        {% if mascota.imagen %}
+                            <img src="{{ mascota.imagen.url }}" alt="{{ mascota.nombre }}" class="img-thumbnail">
+                        {% else %}
+                            <div class="no-img">N/A</div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'mascotas:detalle_mascota' mascota.id %}" class="link-name">{{ mascota.nombre }}</a>
+                    </td>
+                    <td>{{ mascota.especie }}</td>
+                    <td>
+                        {% if mascota.adoptada %}
+                            <span class="status status-success">ADOPTADA</span>
+                        {% else %}
+                            <span class="status status-info">DISPONIBLE</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ mascota.fecha_ingreso|date:"d/m/Y" }}</td>
+                    <td class="action-buttons">
+                        <a href="{% url 'mascotas:editar_mascota_refugio' mascota.id %}" class="btn-sm btn-edit">✏️ Editar</a>
+                        <form method="POST" action="{% url 'mascotas:eliminar_mascota_refugio' mascota.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-sm btn-delete" onclick="return confirm('¿Estás segura de eliminar a {{ mascota.nombre }}? Esta acción es irreversible.');">🗑️ Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-warning animated-card">
+        <h3>😿 No has agregado ninguna mascota todavía</h3>
+        <p>Empieza ahora y ayuda a más peluditos a encontrar un hogar.</p>
+        <a href="{% url 'mascotas:agregar_mascota_refugio' %}" class="btn btn-primary">+ Añadir Mascota</a>
+    </div>
+{% endif %}
+
+<style>
+/* Animación sutil */
+.animated-card {
+    animation: fadeIn 0.7s ease;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Encabezado */
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.page-header h1 {
+    font-size: 2rem;
+    color: #333;
+}
+.page-header .lead {
+    color: #666;
+}
+.page-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Tabla */
+.table-container {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 20px;
+    overflow-x: auto;
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.data-table th, .data-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #eaeaea;
+}
+.data-table th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+}
+.data-table tr:hover {
+    background-color: #f5faff;
+}
+.image-cell {
+    display: flex;
+    justify-content: center;
+}
+.img-thumbnail {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+}
+.no-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Enlaces */
+.link-name {
+    color: #007bff;
+    font-weight: 600;
+    text-decoration: none;
+}
+.link-name:hover {
+    text-decoration: underline;
+}
+
+/* Estados */
+.status {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+.status-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+.status-info {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+/* Botones */
+.btn, .btn-sm {
+    display: inline-block;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+.btn-secondary {
+    background-color: #f0f0f0;
+    color: #333;
+}
+.btn-secondary:hover {
+    background-color: #ddd;
+}
+.btn-sm {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+}
+.btn-edit {
+    background-color: #ffc107;
+    color: #333;
+}
+.btn-edit:hover {
+    background-color: #e0a800;
+}
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Alerta */
+.alert {
+    text-align: center;
+    background-color: #fff3cd;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.alert h3 {
+    color: #856404;
+    margin-bottom: 10px;
+}
+.alert p {
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+</style>
+{% endblock %}

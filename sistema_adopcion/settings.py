@@ -67,6 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
+
             ],
         },
     },
@@ -124,8 +126,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [ BASE_DIR / "static" ]
+# STATIC
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [ BASE_DIR / "static" ]  # tus archivos estáticos locales
+STATIC_ROOT = BASE_DIR / "staticfiles"  # para collectstatic en producción
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -138,7 +143,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-LOGIN_REDIRECT_URL = 'usuarios:home'
+LOGIN_REDIRECT_URL = 'usuarios:perfil'
 
 LOGOUT_REDIRECT_URL = 'usuarios:home'
 

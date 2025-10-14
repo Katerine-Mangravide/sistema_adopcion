@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.shortcuts import redirect
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -43,3 +45,9 @@ urlpatterns = [
          auth_views.PasswordResetCompleteView.as_view(template_name="usuarios/password_reset_complete.html"),
          name='password_reset_complete'),
 ]
+
+if settings.DEBUG:
+    # servir media y static files en desarrollo
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=str(settings.STATICFILES_DIRS[0]))
+    

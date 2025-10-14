@@ -1,0 +1,73 @@
+{% extends "usuarios/base.html" %}
+{% load static %}
+{% block title %}Detalle de {{ mascota.nombre }}{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+  <div class="form-card" style="max-width: 900px; margin: 0 auto;">
+    <div class="detail-content" style="display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start;">
+      
+      <!-- Imagen -->
+      <div class="detail-image" style="flex: 1 1 350px;">
+        {% if mascota.imagen %}
+          <img src="{{ mascota.imagen.url }}" alt="{{ mascota.nombre }}" style="width: 100%; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        {% else %}
+          <img src="{% static 'img/placeholder.png' %}" alt="Mascota sin foto" style="width: 100%; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        {% endif %}
+      </div>
+
+      <!-- Información -->
+      <div class="detail-info" style="flex: 1 1 400px;">
+        <h2 style="margin-bottom: 5px;">{{ mascota.nombre }}</h2>
+        <p class="species-info" style="font-size: 1.1em; color: #777;">
+          {{ mascota.especie }}{% if mascota.raza %} • {{ mascota.raza }}{% endif %}
+        </p>
+
+        <div class="attributes" style="margin-top: 15px;">
+          <p><strong>Edad:</strong> {{ mascota.edad }} años</p>
+          <p><strong>Refugio:</strong> {{ mascota.refugio.nombre }}</p>
+          <p><strong>Ciudad:</strong> {{ mascota.refugio.direccion }}</p>
+          <p><strong>Teléfono Refugio:</strong> {{ mascota.refugio.telefono }}</p>
+        </div>
+
+        <hr style="margin: 20px 0;">
+
+        <h3>Sobre Mí</h3>
+        <p style="text-align: justify;">
+          {{ mascota.descripcion|default:"Esta hermosa mascota está esperando ser descrita por su refugio. ¡Seguro que es maravillosa!" }}
+        </p>
+
+        {% if not mascota.adoptada %}
+          <div class="form-group" style="margin-top: 25px; display: flex; flex-direction: column; gap: 10px;">
+            {% if user.is_authenticated %}
+              <a href="{% url 'mascotas:solicitar_adopcion' mascota.id %}" 
+                 class="btn-primary" style="text-align: center;">
+                 ¡Quiero Adoptar a {{ mascota.nombre }}!
+              </a>
+            {% else %}
+              <a href="{% url 'usuarios:login' %}?next={% url 'mascotas:solicitar_adopcion' mascota.id %}" 
+                 class="btn-primary" style="text-align: center;">
+                 Iniciar Sesión para Adoptar
+              </a>
+            {% endif %}
+
+            <a href="{% url 'usuarios:home' %}" class="btn-secondary" style="text-align: center;">
+              ← Volver al Catálogo
+            </a>
+          </div>
+        {% else %}
+          <p class="adopted-message" style="color: #d9534f; font-weight: 600; margin-top: 20px;">
+            ❤️ ¡Felicidades! Esta mascota ya ha sido adoptada.
+          </p>
+
+          <div style="margin-top: 20px;">
+            <a href="{% url 'usuarios:home' %}" class="btn-secondary" style="text-align: center;">
+              ← Volver al Catálogo
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

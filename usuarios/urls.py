@@ -17,6 +17,10 @@ urlpatterns = [
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('mis-solicitudes/', views.mis_solicitudes, name='mis_solicitudes'),
     path('solicitud-enviada/', views.solicitud_enviada, name='solicitud_enviada'),
+    path('registro/institucion/', views.register_refugio, name='register_refugio'),
+    path('refugio/panel/', views.panel_refugio, name='panel_refugio'),
+    path('refugio/perfil/editar/', views.editar_perfil_refugio, name='editar_perfil_refugio'),
+
 
     # 🔑 Password reset (usamos las vistas oficiales de Django con plantillas personalizadas)
     path(

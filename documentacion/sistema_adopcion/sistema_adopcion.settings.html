@@ -31,9 +31,9 @@ For&nbsp;the&nbsp;full&nbsp;list&nbsp;of&nbsp;settings&nbsp;and&nbsp;their&nbsp;
 <strong>DEBUG</strong> = True<br>
 <strong>DEFAULT_AUTO_FIELD</strong> = 'django.db.models.BigAutoField'<br>
 <strong>EMAIL_BACKEND</strong> = 'django.core.mail.backends.console.EmailBackend'<br>
-<strong>INSTALLED_APPS</strong> = ['django.contrib.admin', 'django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions', 'django.contrib.messages', 'django.contrib.staticfiles', 'mascotas', 'usuarios']<br>
+<strong>INSTALLED_APPS</strong> = ['django.contrib.admin', 'django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions', 'django.contrib.messages', 'django.contrib.staticfiles', 'mascotas', 'usuarios', 'admin_panel']<br>
 <strong>LANGUAGE_CODE</strong> = 'en-us'<br>
-<strong>LOGIN_REDIRECT_URL</strong> = 'usuarios:home'<br>
+<strong>LOGIN_REDIRECT_URL</strong> = 'usuarios:perfil'<br>
 <strong>LOGIN_URL</strong> = 'usuarios:login'<br>
 <strong>LOGOUT_REDIRECT_URL</strong> = 'usuarios:home'<br>
 <strong>MEDIA_ROOT</strong> = WindowsPath('C:/Users/kater/sistema_adopcion/media')<br>
@@ -42,8 +42,9 @@ For&nbsp;the&nbsp;full&nbsp;list&nbsp;of&nbsp;settings&nbsp;and&nbsp;their&nbsp;
 <strong>ROOT_URLCONF</strong> = 'sistema_adopcion.urls'<br>
 <strong>SECRET_KEY</strong> = 'django-insecure-6qx)-wck07j6-&amp;+%gr3(myfut5mkga3d&amp;ufuk-o38=9o$xj*9i'<br>
 <strong>STATICFILES_DIRS</strong> = [WindowsPath('C:/Users/kater/sistema_adopcion/static')]<br>
-<strong>STATIC_URL</strong> = 'static/'<br>
-<strong>TEMPLATES</strong> = [{'APP_DIRS': True, 'BACKEND': 'django.template.backends.django.DjangoTemplates', 'DIRS': [WindowsPath('C:/Users/kater/sistema_adopcion/templates')], 'OPTIONS': {'context_processors': ['django.template.context_processors.request', 'django.contrib.auth.context_processors.auth', 'django.contrib.messages.context_processors.messages']}}]<br>
+<strong>STATIC_ROOT</strong> = WindowsPath('C:/Users/kater/sistema_adopcion/staticfiles')<br>
+<strong>STATIC_URL</strong> = '/static/'<br>
+<strong>TEMPLATES</strong> = [{'APP_DIRS': True, 'BACKEND': 'django.template.backends.django.DjangoTemplates', 'DIRS': [WindowsPath('C:/Users/kater/sistema_adopcion/templates')], 'OPTIONS': {'context_processors': ['django.template.context_processors.request', 'django.contrib.auth.context_processors.auth', 'django.contrib.messages.context_processors.messages', 'django.template.context_processors.media']}}]<br>
 <strong>TIME_ZONE</strong> = 'UTC'<br>
 <strong>USE_I18N</strong> = True<br>
 <strong>USE_TZ</strong> = True<br>

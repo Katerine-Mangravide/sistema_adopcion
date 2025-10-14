@@ -1,4 +1,3 @@
-# admin_panel/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
@@ -7,11 +6,8 @@ from django.urls import reverse
 from usuarios.forms import UserForm, AdoptanteForm
 from usuarios.models import Adoptante
 from mascotas.models import Mascota, Refugio, SolicitudAdopcion
+from .forms import CrearUsuarioForm, EditarUsuarioForm, EditarUserForm, RefugioForm, MascotaForm, SolicitudForm, SolicitudAdminForm, CrearRefugioUserForm # <-- ¡Añade esto!
 
-from .forms import (
-    CrearUsuarioForm, EditarUsuarioForm, EditarUserForm,
-    RefugioForm, MascotaForm, SolicitudForm, SolicitudAdminForm
-)
 
 # Decorator: solo staff (admin)
 def admin_required(view_func):
@@ -98,45 +94,95 @@ def eliminar_usuario(request, user_id):
     return redirect('admin_panel:gestion_usuarios')
 
 
-
 # ---------- REFUGIOS ----------
+
 @admin_required
 def gestion_refugios(request):
-    refugios = Refugio.objects.all()
+    refugios = Refugio.objects.select_related('usuario').all() # Mejorado para select_related
     return render(request, 'admin_panel/refugios.html', {'refugios': refugios})
 
 @admin_required
 def crear_refugio(request):
     if request.method == 'POST':
-        form = RefugioForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Refugio creado.")
+        user_form = CrearRefugioUserForm(request.POST)
+        refugio_form = RefugioForm(request.POST)
+        
+        if user_form.is_valid() and refugio_form.is_valid():
+            # ✅ Crear el usuario del refugio
+            user = user_form.save(commit=False)
+            password = user_form.cleaned_data.get('password')
+            user.set_password(password)
+            user.is_staff = True  # Para permitir acceso al panel
+            user.save()
+
+            # ✅ Crear el refugio vinculado al usuario
+            refugio = refugio_form.save(commit=False)
+            refugio.usuario = user
+            refugio.save()
+
+            messages.success(request, "Refugio y Usuario creados correctamente.")
             return redirect('admin_panel:gestion_refugios')
+        else:
+            print("===================================")
+            print("ERRORES DEL USER_FORM:", user_form.errors)
+            print("ERRORES DEL REFUGIO_FORM:", refugio_form.errors)
+            print("===================================")
     else:
-        form = RefugioForm()
-    return render(request, 'admin_panel/crear_refugio.html', {'form': form})
+        user_form = CrearRefugioUserForm() 
+        refugio_form = RefugioForm()
+        
+    return render(request, 'admin_panel/crear_refugio.html', {
+        'user_form': user_form, 
+        'refugio_form': refugio_form
+    })
+
+
+
+# admin_panel/views.py
 
 @admin_required
 def editar_refugio(request, refugio_id):
-    refugio = get_object_or_404(Refugio, id=refugio_id)
+    refugio = get_object_or_404(Refugio, usuario_id=refugio_id)
+    usuario = refugio.usuario 
+    
     if request.method == 'POST':
-        form = RefugioForm(request.POST, instance=refugio)
-        if form.is_valid():
-            form.save()
+        user_form = EditarUserForm(request.POST, instance=usuario)
+        refugio_form = RefugioForm(request.POST, instance=refugio)
+        
+        if user_form.is_valid() and refugio_form.is_valid():
+            user_form.save()
+            refugio_form.save()
             messages.success(request, "Refugio actualizado.")
             return redirect('admin_panel:gestion_refugios')
+        else:
+            # 🔑 CÓDIGO DE DEPURACIÓN AÑADIDO (para ver en la consola del servidor)
+            print("===================================")
+            print("¡ERROR DE VALIDACIÓN AL ACTUALIZAR!")
+            print("ERRORES DEL USER_FORM:", user_form.errors)
+            print("ERRORES DEL REFUGIO_FORM:", refugio_form.errors)
+            print("===================================")
+            # 🔑 MENSAJE DE ERROR WEB
+            messages.error(request, "Hubo un error en los datos. Revise los campos marcados.")
+            
     else:
-        form = RefugioForm(instance=refugio)
-    return render(request, 'admin_panel/editar_refugio.html', {'form': form, 'refugio': refugio})
+        user_form = EditarUserForm(instance=usuario)
+        refugio_form = RefugioForm(instance=refugio)
+        
+    return render(request, 'admin_panel/editar_refugio.html', {
+        'user_form': user_form,
+        'refugio_form': refugio_form,
+        'refugio': refugio
+    })
 
 @admin_required
 def eliminar_refugio(request, refugio_id):
     if request.method != 'POST':
         messages.error(request, "Petición inválida para eliminar refugio.")
         return redirect('admin_panel:gestion_refugios')
-    refugio = get_object_or_404(Refugio, id=refugio_id)
-    refugio.delete()
+    refugio = get_object_or_404(Refugio, usuario_id=refugio_id)
+    # 🔑 CORRECCIÓN: Eliminamos el usuario, lo que por CASCADE debe eliminar el refugio.
+    # Asume que Refugio tiene un CASCADE.
+    refugio.usuario.delete() 
     messages.success(request, "Refugio eliminado.")
     return redirect('admin_panel:gestion_refugios')
 

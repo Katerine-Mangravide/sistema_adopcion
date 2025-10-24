@@ -40,18 +40,14 @@
         <input type="number" name="edad" value="{{ form.edad.value|default_if_none:'' }}" min="0">
       </div>
 
-      <div class="form-group">
-        <label>Refugio</label>
-        <select name="refugio">
-          <option value="">Seleccionar refugio</option>
-          {% for r in refugios %}
-            <option value="{{ r.id }}" {% if form.refugio.value|stringformat:"s" == r.id|stringformat:"s" %}selected{% endif %}>{{ r.nombre }}</option>
-          {% endfor %}
-        </select>
-        {% if form.refugio.errors %}
-          <p class="error-message">{{ form.refugio.errors.0 }}</p>
-        {% endif %}
-      </div>
+<div class="form-group">
+    <label for="{{ form.refugio.id_for_label }}">Refugio</label>
+       {{ form.refugio }}
+
+    {% if form.refugio.errors %}
+      <p class="error-message">{{ form.refugio.errors.0 }}</p>
+    {% endif %}
+</div>
 
       <div class="form-group">
         <label>Imagen</label>

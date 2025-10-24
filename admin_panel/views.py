@@ -193,25 +193,26 @@ def gestion_mascotas(request):
     mascotas = Mascota.objects.select_related('refugio').all()
     return render(request, 'admin_panel/mascotas.html', {'mascotas': mascotas})
 
+# admin_panel/views.py
+
 @admin_required
 def crear_mascota(request):
     if request.method == 'POST':
         form = MascotaForm(request.POST, request.FILES)
         if form.is_valid():
+            # 🔑 CORRECCIÓN: Ya que 'refugio' está en MascotaForm, 
+            # Django lo guarda directamente. ¡No necesitas form.save(commit=False)!
             form.save()
             messages.success(request, "Mascota creada.")
             return redirect('admin_panel:gestion_mascotas')
+        else:
+            # 💡 CONSEJO: Añade esta línea para ver los errores si fallan
+            print("ERRORES DEL FORMULARIO:", form.errors)
     else:
         form = MascotaForm()
-    # 1. Obtiene todos los refugios.
-    refugios_disponibles = Refugio.objects.all() 
-    
-    # 2. Renderiza la plantilla, pasando tanto el formulario como los refugios.
-    context = {
-        'form': form,
-        'refugios': refugios_disponibles, # <- ESTO ES CLAVE para el HTML
-    }
-    return render(request, 'admin_panel/crear_mascota.html', context)
+        
+    # ELIMINA la parte de pasar 'refugios_disponibles' al contexto, Django lo hace solo.
+    return render(request, 'admin_panel/crear_mascota.html', {'form': form})
 
 @admin_required
 def editar_mascota(request, mascota_id):

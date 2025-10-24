@@ -20,9 +20,9 @@ class MascotaForm(forms.ModelForm):
     """Formulario para añadir o editar una Mascota."""
     class Meta:
         model = Mascota
-        # Excluye 'refugio' ya que se asigna automáticamente en la vista.
-        # Excluye 'adoptada' ya que se actualiza automáticamente al aprobar.
-        fields = ['nombre', 'especie', 'raza', 'edad', 'sexo', 'descripcion', 'imagen'] 
+        # 🔑 CORRECCIÓN: INCLUYE 'refugio' para que el administrador lo seleccione
+        fields = ['nombre', 'especie', 'raza', 'edad', 'sexo', 'descripcion', 'imagen', 'refugio'] 
+        # Si no necesitas el campo 'adoptada' en el formulario, déjalo excluido.
         widgets = {
             'descripcion': forms.Textarea(attrs={'rows': 4}),
         }

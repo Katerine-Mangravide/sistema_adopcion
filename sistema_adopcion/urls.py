@@ -29,8 +29,6 @@ urlpatterns = [
     path('admin-web/', include('admin_panel.urls')),
     path('mascotas/', include('mascotas.urls', namespace='mascotas')),
 
-
-
     # 👇 Esto agrega las rutas de reset sin namespace, así Django las encuentra en el mail
     path('password-reset/',
          auth_views.PasswordResetView.as_view(template_name="usuarios/password_reset.html"),

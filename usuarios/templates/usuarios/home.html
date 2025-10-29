@@ -250,7 +250,11 @@
     
 {% load static %}
 
-<img src="{{ MEDIA_URL }}mascotas/placeholder.png" alt="Mascota sin foto" class="card-img">
+{% if mascota.imagen %}
+    <img src="{{ mascota.imagen.url }}" alt="{{ mascota.nombre }}" class="card-img">
+{% else %}
+    <img src="{{ MEDIA_URL }}mascotas/placeholder.png" alt="Mascota sin foto" class="card-img">
+{% endif %}
 
 
 

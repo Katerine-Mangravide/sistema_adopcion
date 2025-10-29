@@ -577,3 +577,9 @@ body {
   background: #4b5563;
 }
 
+.img-thumbnail {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 8px;
+}

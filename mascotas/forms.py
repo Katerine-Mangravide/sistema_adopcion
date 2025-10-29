@@ -25,4 +25,5 @@ class MascotaForm(forms.ModelForm):
         # Si no necesitas el campo 'adoptada' en el formulario, déjalo excluido.
         widgets = {
             'descripcion': forms.Textarea(attrs={'rows': 4}),
+            
         }

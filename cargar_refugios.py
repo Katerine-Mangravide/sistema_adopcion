@@ -73,3 +73,4 @@ for data in refugios_data:
         print(f"⚠️ Refugio existente: {refugio.nombre}")
 
 print("✅ Carga de refugios completada correctamente.")
+# Comentario para commit de prueba.

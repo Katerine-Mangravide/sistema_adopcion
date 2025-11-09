@@ -5,10 +5,10 @@
 <div class="form-container">
   <div class="form-card">
 
-    {% if adoptante.avatar %}
-      <img src="{% static 'img/avatars/' %}{{ adoptante.avatar }}" alt="Avatar" class="profile-photo">
+    {% if adoptante.foto_perfil %}
+      <img src="{{ adoptante.foto_perfil.url }}" alt="Foto de perfil" class="profile-photo" style="width:150px; height:150px; border-radius:50%;">
     {% else %}
-      <img src="{% static 'img/user-placeholder.png' %}" alt="Sin foto" class="profile-photo">
+      <img src="{% static 'img/user-placeholder.png' %}" alt="Sin foto" class="profile-photo" style="width:150px; height:150px; border-radius:50%;">
     {% endif %}
 
     <h2>{{ adoptante.user.first_name }} {{ adoptante.user.last_name }}</h2>
@@ -38,6 +38,7 @@
     <div class="card-actions" style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
       <a href="{% url 'usuarios:editar_perfil' %}" class="btn-primary">Editar Perfil</a>
       <a href="{% url 'usuarios:mis_solicitudes' %}" class="btn-secondary">Mis Solicitudes de Adopción</a>
+      <a href="{% url 'usuarios:mis_seguimientos' %}" class="btn-primary">Mis Seguimientos</a>
       <a href="{% url 'usuarios:home' %}" class="btn-secondary">Volver al inicio</a>
     </div>
 
@@ -46,6 +47,12 @@
       <a href="{% url 'usuarios:descargar_datos' 'json' %}" class="btn-primary">Descargar JSON</a>
       <a href="{% url 'usuarios:descargar_datos' 'csv' %}" class="btn-secondary">Descargar CSV</a>
     </div>
+
+    <!-- Botón para desactivar cuenta -->
+<div class="card-actions" style="margin-top:20px; display:flex; justify-content:center;">
+  <a href="{% url 'usuarios:desactivar_cuenta' %}" class="btn-danger">Desactivar cuenta</a>
+</div>
+
 
   </div>
 </div>

@@ -13,6 +13,7 @@ from .models import Adoptante, Refugio
 from mascotas.models import Mascota, SolicitudAdopcion
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
+from seguimiento.models import Seguimiento
 
 def register_adoptante(request):
     if request.method == "POST":
@@ -193,6 +194,8 @@ def editar_perfil(request):
             return redirect('usuarios:perfil')
         else:
             messages.error(request, "Corrige los errores del formulario.")
+            print(adoptante_form.errors)
+
     else:
         user_form = UserForm(instance=request.user)
         adoptante_form = AdoptanteForm(instance=adoptante)
@@ -200,7 +203,8 @@ def editar_perfil(request):
     return render(request, 'usuarios/editar_perfil.html', {
         'user_form': user_form,
         'adoptante_form': adoptante_form
-    })
+    }
+    )
 
 
 @login_required
@@ -221,19 +225,22 @@ def cambiar_contrasena(request):
 
 @login_required
 def desactivar_cuenta(request):
+    """Permite al adoptante desactivar su cuenta (sin eliminarla)."""
     adoptante = get_object_or_404(Adoptante, user=request.user)
 
     if request.method == "POST":
-        adoptante.is_active = False
-        adoptante.save()
+        # Desactiva el usuario y su perfil
         request.user.is_active = False
         request.user.save()
+        adoptante.is_active = False
+        adoptante.save()
 
         logout(request)
         messages.success(request, "Tu cuenta ha sido desactivada correctamente.")
-        return redirect("usuarios:home")
+        return redirect("usuarios:login")
 
-    return render(request, "usuarios/desactivar_cuenta.html")
+    return render(request, "usuarios/desactivar_cuenta.html", {"adoptante": adoptante})
+
 
 
 @login_required
@@ -353,7 +360,62 @@ def mis_solicitudes(request):
     return render(request, 'usuarios/mis_solicitudes.html', contexto)
 
     # usuarios/views.py
+@login_required
+def redirigir_perfil(request):
+    user = request.user
 
-# ... otras vistas (panel_refugio, editar_perfil_refugio, etc.)
+    # 🔹 Si es superusuario o staff → admin dashboard
+    if user.is_superuser or user.is_staff:
+        return redirect('admin_panel:dashboard')
 
-# 🔑 NUEVA VISTA: GESTIÓN DE REDIRECCIÓN DESPUÉS DEL LOGIN
+    # 🔹 Si es refugio → panel del refugio
+    try:
+        if hasattr(user, 'refugio') and user.refugio.es_refugio:
+            return redirect('usuarios:panel_refugio')
+    except Exception:
+        pass
+
+    # 🔹 Caso por defecto → perfil del adoptante
+    return redirect('usuarios:perfil')
+
+
+# usuarios/views.py
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from mascotas.models import Mascota, SolicitudAdopcion
+from seguimiento.models import Seguimiento
+
+@login_required
+def mis_seguimientos(request):
+    try:
+        # Obtener el adoptante logueado
+        adoptante = request.user.adoptante
+    except Exception:
+        # Si el usuario no es adoptante
+        adoptante = None
+
+    seguimientos = []
+    
+    if adoptante:
+        # Obtener solicitudes aprobadas del adoptante
+        solicitudes = SolicitudAdopcion.objects.filter(
+            nombre_adoptante=adoptante.user.first_name,
+            apellido_adoptante=adoptante.user.last_name,
+            estado='aprobada'
+        )
+
+        # Obtener mascotas asociadas a esas solicitudes
+        mascotas_adoptadas = Mascota.objects.filter(
+            id__in=solicitudes.values_list('mascota_id', flat=True)
+        )
+
+        # Obtener los seguimientos de esas mascotas
+        seguimientos = Seguimiento.objects.filter(
+            mascota__in=mascotas_adoptadas
+        ).order_by('fecha_revision')
+
+    context = {
+        'seguimientos': seguimientos
+    }
+
+    return render(request, 'usuarios/mis_seguimientos.html', context)

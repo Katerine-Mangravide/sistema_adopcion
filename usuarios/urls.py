@@ -10,6 +10,7 @@ urlpatterns = [
     path('logout/', views.logout_adoptante, name='logout'),
     path('register/', views.register_adoptante, name='register'),
     path('perfil/', views.ver_perfil, name='perfil'),
+    path('mi-perfil/', views.redirigir_perfil, name='redirigir_perfil'),
     path('perfil/editar/', views.editar_perfil, name='editar_perfil'),
     path('perfil/cambiar-contrasena/', views.cambiar_contrasena, name='cambiar_contrasena'),
     path('perfil/desactivar/', views.desactivar_cuenta, name='desactivar_cuenta'),
@@ -20,6 +21,7 @@ urlpatterns = [
     path('registro/institucion/', views.register_refugio, name='register_refugio'),
     path('refugio/panel/', views.panel_refugio, name='panel_refugio'),
     path('refugio/perfil/editar/', views.editar_perfil_refugio, name='editar_perfil_refugio'),
+    path('mis-seguimientos/', views.mis_seguimientos, name='mis_seguimientos'),
 
 
     # 🔑 Password reset (usamos las vistas oficiales de Django con plantillas personalizadas)

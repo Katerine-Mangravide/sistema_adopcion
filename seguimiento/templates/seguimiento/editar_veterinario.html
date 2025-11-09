@@ -1,0 +1,133 @@
+{% extends "usuarios/base.html" %}
+{% load static %}
+
+{% block title %}Editar Veterinario - {{ veterinario.nombre }}{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+  <div class="dashboard-container">
+    <h1 class="page-title">✏️ Editar Veterinario - {{ veterinario.nombre }}</h1>
+    <p class="page-subtitle">Actualiza los datos del veterinario seleccionado.</p>
+
+    <form method="post" class="form-dashboard">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="{{ form.nombre.id_for_label }}">Nombre:</label>
+        {{ form.nombre }}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.apellido.id_for_label }}">Apellido:</label>
+        {{ form.apellido }}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.telefono.id_for_label }}">Teléfono:</label>
+        {{ form.telefono }}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.email.id_for_label }}">Email:</label>
+        {{ form.email }}
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">💾 Guardar cambios</button>
+        <a href="{% url 'seguimiento:lista_veterinarios_refugio' %}" class="btn-back">⬅ Volver a lista</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+.dashboard-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+  background-color: #f8fafc;
+}
+
+.dashboard-container {
+  width: 85%;
+  max-width: 700px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  padding: 30px;
+}
+
+.page-title {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.page-subtitle {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.form-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  margin-top: 15px;
+}
+
+.btn-primary {
+  background-color: #3aafa9;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #2b7a78;
+}
+
+.btn-back {
+  display: inline-block;
+  background-color: #dee2e6;
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-back:hover {
+  background-color: #cfd4d8;
+}
+</style>
+{% endblock %}

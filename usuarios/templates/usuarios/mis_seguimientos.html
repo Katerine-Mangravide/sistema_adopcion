@@ -1,0 +1,42 @@
+{% extends "usuarios/base.html" %}
+{% block title %}Mis Seguimientos{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <div class="dashboard-container">
+        <h1 class="page-title">📋 Mis Seguimientos</h1>
+
+        {% if seguimientos %}
+        <table class="table-dashboard">
+            <thead>
+                <tr>
+                    <th>Mascota</th>
+                    <th>Veterinario</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Motivo</th>
+                    <th>Estado</th>
+                    <th>Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for seguimiento in seguimientos %}
+                <tr>
+                    <td>{{ seguimiento.mascota.nombre }}</td>
+                    <td>{{ seguimiento.veterinario.nombre }} {{ seguimiento.veterinario.apellido }}</td>
+                    <td>{{ seguimiento.fecha_revision }}</td>
+                    <td>{{ seguimiento.hora_revision }}</td>
+                    <td>{{ seguimiento.motivo }}</td>
+                    <td>{{ seguimiento.estado }}</td>
+                    <td>{{ seguimiento.observaciones }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No tenés seguimientos pendientes o realizados para tus mascotas adoptadas.</p>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

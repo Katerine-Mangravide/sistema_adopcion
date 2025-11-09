@@ -1,0 +1,143 @@
+{% extends "usuarios/base.html" %}
+{% load static %}
+{% block title %}Veterinarios - {{ refugio.nombre }}{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+  <div class="dashboard-container">
+    <h1 class="page-title">🐾 Veterinarios - {{ refugio.nombre }}</h1>
+    <p class="page-subtitle">Gestiona los veterinarios asociados al refugio.</p>
+
+    <a href="{% url 'seguimiento:agregar_veterinario_refugio' %}" class="btn-primary"> + Agregar Veterinario</a>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Teléfono</th>
+          <th>Email</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in veterinarios %}
+        <tr>
+          <td>{{ v.id }}</td>
+          <td>{{ v.nombre }}</td>
+          <td>{{ v.apellido }}</td>
+          <td>{{ v.telefono }}</td>
+          <td>{{ v.email }}</td>
+          <td>
+            <a href="{% url 'seguimiento:editar_veterinario_refugio' v.id %}" class="btn-edit">✏️ Editar</a>
+            <a href="{% url 'seguimiento:eliminar_veterinario_refugio' v.id %}" class="btn-delete">🗑 Eliminar</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" style="text-align:center; color:#888;">No hay veterinarios registrados.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+.dashboard-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+  background-color: #f8fafc;
+}
+
+.dashboard-container {
+  width: 90%;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  padding: 30px;
+}
+
+.page-title {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.page-subtitle {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.styled-table thead tr {
+  background-color: #f0f4f8;
+  font-weight: bold;
+  border-bottom: 2px solid #007bff;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #ddd;
+  transition: background 0.3s;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-edit {
+  display: inline-block;
+  background-color: #ffc107;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-right: 5px;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800;
+}
+
+.btn-delete {
+  display: inline-block;
+  background-color: #e53935;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.btn-delete:hover {
+  background-color: #c62828;
+}
+</style>
+{% endblock %}

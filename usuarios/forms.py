@@ -13,7 +13,7 @@ class RegistroForm(forms.ModelForm):
 
     class Meta:
         model = Adoptante
-        fields = ['cedula', 'telefono', 'direccion']  # no avatar ni foto aquí (avatar sólo en editar)
+        fields = ['cedula', 'telefono', 'direccion']
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -37,11 +37,8 @@ class UserForm(forms.ModelForm):
 class AdoptanteForm(forms.ModelForm):
     class Meta:
         model = Adoptante
-        fields = ['cedula', 'telefono', 'direccion', 'avatar', 'foto_perfil']
-        widgets = {
-            'avatar': forms.RadioSelect(),  # renderiza radios (pero en template los mostraremos con imágenes)
-        }
-
+        fields = ['cedula', 'telefono', 'direccion', 'foto_perfil']
+        
 class RegistroRefugioForm(forms.ModelForm):
     # Campos para crear el User, idénticos al RegistroForm de Adoptante
     username = forms.CharField(max_length=150, label="Usuario")

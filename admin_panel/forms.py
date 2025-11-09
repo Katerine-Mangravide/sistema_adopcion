@@ -66,7 +66,7 @@ class CrearUsuarioForm(forms.ModelForm):
 class EditarUsuarioForm(forms.ModelForm):
     class Meta:
         model = Adoptante
-        fields = ['cedula', 'telefono', 'direccion', 'avatar', 'foto_perfil']
+        fields = ['cedula', 'telefono', 'direccion', 'foto_perfil']
 
 class EditarUserForm(forms.ModelForm):
     class Meta:

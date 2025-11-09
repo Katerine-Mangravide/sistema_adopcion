@@ -1,0 +1,116 @@
+{% extends "usuarios/base.html" %}
+{% block title %}Detalle Seguimiento #{{ seguimiento.id }}{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+  <div class="dashboard-container">
+    <h1 class="page-title">🔍 Detalle Seguimiento #{{ seguimiento.id }}</h1>
+    <p class="page-subtitle">Visualiza toda la información de la revisión de la mascota.</p>
+
+    <div class="detail-card">
+      <ul>
+        <li><strong>Mascota:</strong> {{ seguimiento.mascota.nombre }}</li>
+        <li><strong>Veterinario:</strong> {% if seguimiento.veterinario %}{{ seguimiento.veterinario }}{% else %}-{% endif %}</li>
+        <li><strong>Fecha:</strong> {{ seguimiento.fecha_revision }}</li>
+        <li><strong>Hora:</strong> {{ seguimiento.hora_revision }}</li>
+        <li><strong>Motivo:</strong> {{ seguimiento.motivo }}</li>
+        <li><strong>Observaciones:</strong> {{ seguimiento.observaciones }}</li>
+        <li><strong>Estado:</strong> {{ seguimiento.get_estado_display }}</li>
+      </ul>
+
+      <div class="detail-actions">
+        <a href="{% url 'seguimiento:editar_seguimiento' seguimiento.id %}" class="btn-primary">✏️ Editar</a>
+        <a href="{% url 'seguimiento:listar_seguimientos' %}" class="btn-back">⬅ Volver</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.dashboard-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+  background-color: #f8fafc;
+}
+
+.dashboard-container {
+  width: 85%;
+  max-width: 700px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  padding: 30px;
+}
+
+.page-title {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.page-subtitle {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.detail-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.detail-card li {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+
+.detail-card li strong {
+  width: 120px;
+  display: inline-block;
+  color: #333;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-back {
+  display: inline-block;
+  background-color: #dee2e6;
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-back:hover {
+  background-color: #cfd4d8;
+}
+</style>
+{% endblock %}

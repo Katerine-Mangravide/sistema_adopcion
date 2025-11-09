@@ -40,6 +40,19 @@
                 <a href="{% url 'mascotas:gestion_solicitudes_refugio' %}" class="btn btn-primary">Gestionar Solicitudes</a>
             </div>
         </div>
+        
+        <div class="card summary-card">
+    <div class="card-icon">📋</div>
+    <h3>Seguimiento de Mascotas Adoptadas</h3>
+    <p>Monitorea las revisiones y el estado de salud de las mascotas que ya fueron adoptadas.</p>
+    <div class="card-actions">
+        <a href="{% url 'seguimiento:listar_seguimientos' %}" class="btn btn-primary">Gestionar Seguimientos</a>
+        <a href="{% url 'seguimiento:lista_veterinarios_refugio' %}" class="btn btn-secondary">Gestionar Veterinarios</a>
+
+        
+    </div>
+</div>
+
 
         <div class="card profile-card">
             <div class="card-icon">🏠</div>

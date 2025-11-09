@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'mascotas',
     'usuarios',
     'admin_panel',
+    'seguimiento',
 ]
 
 # Configuración de email (modo desarrollo: imprime correos en consola)

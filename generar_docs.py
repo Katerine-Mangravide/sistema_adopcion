@@ -8,7 +8,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sistema_adopcion.settings')
 django.setup()
 
 # Lista de apps que querés documentar
-apps = ['sistema_adopcion']
+apps = ['sistema_adopcion', 'admin_panel', 'mascotas', 'seguimiento', 'usuarios']
 
 for app in apps:
     try:

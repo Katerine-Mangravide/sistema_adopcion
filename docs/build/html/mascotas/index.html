@@ -1,0 +1,494 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mascotas &mdash; documentación de sistema_adopcion - 1.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4936afed"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Módulo Seguimiento" href="../seguimiento/index.html" />
+    <link rel="prev" title="admin_panel.migrations package" href="../admin_panel/admin_panel.migrations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            sistema_adopcion
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenido</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../admin_panel/index.html">Admin Panel</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Mascotas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mascotas.models.Mascota"><code class="docutils literal notranslate"><span class="pre">Mascota</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Mascota.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Mascota.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.SEXO_CHOICES"><code class="docutils literal notranslate"><span class="pre">Mascota.SEXO_CHOICES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.adoptada"><code class="docutils literal notranslate"><span class="pre">Mascota.adoptada</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.descripcion"><code class="docutils literal notranslate"><span class="pre">Mascota.descripcion</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.edad"><code class="docutils literal notranslate"><span class="pre">Mascota.edad</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.especie"><code class="docutils literal notranslate"><span class="pre">Mascota.especie</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.fecha_ingreso"><code class="docutils literal notranslate"><span class="pre">Mascota.fecha_ingreso</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.get_next_by_fecha_ingreso"><code class="docutils literal notranslate"><span class="pre">Mascota.get_next_by_fecha_ingreso()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.get_previous_by_fecha_ingreso"><code class="docutils literal notranslate"><span class="pre">Mascota.get_previous_by_fecha_ingreso()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.get_sexo_display"><code class="docutils literal notranslate"><span class="pre">Mascota.get_sexo_display()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.id"><code class="docutils literal notranslate"><span class="pre">Mascota.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.imagen"><code class="docutils literal notranslate"><span class="pre">Mascota.imagen</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.nombre"><code class="docutils literal notranslate"><span class="pre">Mascota.nombre</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.objects"><code class="docutils literal notranslate"><span class="pre">Mascota.objects</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.raza"><code class="docutils literal notranslate"><span class="pre">Mascota.raza</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.refugio"><code class="docutils literal notranslate"><span class="pre">Mascota.refugio</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.refugio_id"><code class="docutils literal notranslate"><span class="pre">Mascota.refugio_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.seguimiento_set"><code class="docutils literal notranslate"><span class="pre">Mascota.seguimiento_set</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.sexo"><code class="docutils literal notranslate"><span class="pre">Mascota.sexo</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.Mascota.solicitudadopcion_set"><code class="docutils literal notranslate"><span class="pre">Mascota.solicitudadopcion_set</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.ESTADOS"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.ESTADOS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.apellido_adoptante"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.apellido_adoptante</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.direccion"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.direccion</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.email"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.email</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.estado"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.estado</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.fecha_solicitud"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.fecha_solicitud</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.get_estado_display"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.get_estado_display()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.get_next_by_fecha_solicitud"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.get_next_by_fecha_solicitud()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.get_previous_by_fecha_solicitud"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.get_previous_by_fecha_solicitud()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.id"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.mascota"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.mascota</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.mascota_id"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.mascota_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.nombre_adoptante"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.nombre_adoptante</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.objects"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.objects</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mascotas.models.SolicitudAdopcion.telefono"><code class="docutils literal notranslate"><span class="pre">SolicitudAdopcion.telefono</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mascotas.views.agregar_mascota_refugio"><code class="docutils literal notranslate"><span class="pre">agregar_mascota_refugio()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mascotas.views.detalle_mascota"><code class="docutils literal notranslate"><span class="pre">detalle_mascota()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mascotas.views.detalle_solicitud_refugio"><code class="docutils literal notranslate"><span class="pre">detalle_solicitud_refugio()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mascotas.views.editar_mascota"><code class="docutils literal notranslate"><span class="pre">editar_mascota()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mascotas.views.eliminar_mascota"><code class="docutils literal notranslate"><span class="pre">eliminar_mascota()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mascotas.views.es_refugio"><code class="docutils literal notranslate"><span class="pre">es_refugio()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mascotas.views.gestion_solicitudes_refugio"><code class="docutils literal notranslate"><span class="pre">gestion_solicitudes_refugio()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mascotas.views.lista_mascotas_refugio"><code class="docutils literal notranslate"><span class="pre">lista_mascotas_refugio()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mascotas.views.solicitar_adopcion"><code class="docutils literal notranslate"><span class="pre">solicitar_adopcion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../seguimiento/index.html">Módulo Seguimiento</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usuarios/index.html">Módulo Usuarios</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sistema_adopcion</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Mascotas</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/mascotas/index.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mascotas">
+<h1>Mascotas<a class="headerlink" href="#mascotas" title="Link to this heading"></a></h1>
+<p>Módulos y clases de la app Mascotas:</p>
+<dl class="py class" id="module-mascotas.models">
+<dt class="sig sig-object py" id="mascotas.models.Mascota">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mascotas.models.</span></span><span class="sig-name descname"><span class="pre">Mascota</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">especie</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raza</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sexo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descripcion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fecha_ingreso</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adoptada</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imagen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refugio</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.models.Mascota" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#mascotas.models.Mascota.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#mascotas.models.Mascota.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.SEXO_CHOICES">
+<span class="sig-name descname"><span class="pre">SEXO_CHOICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('M',</span> <span class="pre">'Macho'),</span> <span class="pre">('H',</span> <span class="pre">'Hembra')]</span></em><a class="headerlink" href="#mascotas.models.Mascota.SEXO_CHOICES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.adoptada">
+<span class="sig-name descname"><span class="pre">adoptada</span></span><a class="headerlink" href="#mascotas.models.Mascota.adoptada" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.descripcion">
+<span class="sig-name descname"><span class="pre">descripcion</span></span><a class="headerlink" href="#mascotas.models.Mascota.descripcion" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.edad">
+<span class="sig-name descname"><span class="pre">edad</span></span><a class="headerlink" href="#mascotas.models.Mascota.edad" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.especie">
+<span class="sig-name descname"><span class="pre">especie</span></span><a class="headerlink" href="#mascotas.models.Mascota.especie" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.fecha_ingreso">
+<span class="sig-name descname"><span class="pre">fecha_ingreso</span></span><a class="headerlink" href="#mascotas.models.Mascota.fecha_ingreso" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.get_next_by_fecha_ingreso">
+<span class="sig-name descname"><span class="pre">get_next_by_fecha_ingreso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">fecha_ingreso&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.models.Mascota.get_next_by_fecha_ingreso" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.get_previous_by_fecha_ingreso">
+<span class="sig-name descname"><span class="pre">get_previous_by_fecha_ingreso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">fecha_ingreso&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.models.Mascota.get_previous_by_fecha_ingreso" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.get_sexo_display">
+<span class="sig-name descname"><span class="pre">get_sexo_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">sexo&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.models.Mascota.get_sexo_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#mascotas.models.Mascota.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.imagen">
+<span class="sig-name descname"><span class="pre">imagen</span></span><a class="headerlink" href="#mascotas.models.Mascota.imagen" title="Link to this definition"></a></dt>
+<dd><p>Just like the FileDescriptor, but for ImageFields. The only difference is
+assigning the width/height to the width_field/height_field, if appropriate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.nombre">
+<span class="sig-name descname"><span class="pre">nombre</span></span><a class="headerlink" href="#mascotas.models.Mascota.nombre" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#mascotas.models.Mascota.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.raza">
+<span class="sig-name descname"><span class="pre">raza</span></span><a class="headerlink" href="#mascotas.models.Mascota.raza" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.refugio">
+<span class="sig-name descname"><span class="pre">refugio</span></span><a class="headerlink" href="#mascotas.models.Mascota.refugio" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.refugio_id">
+<span class="sig-name descname"><span class="pre">refugio_id</span></span><a class="headerlink" href="#mascotas.models.Mascota.refugio_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.seguimiento_set">
+<span class="sig-name descname"><span class="pre">seguimiento_set</span></span><a class="headerlink" href="#mascotas.models.Mascota.seguimiento_set" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.sexo">
+<span class="sig-name descname"><span class="pre">sexo</span></span><a class="headerlink" href="#mascotas.models.Mascota.sexo" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.Mascota.solicitudadopcion_set">
+<span class="sig-name descname"><span class="pre">solicitudadopcion_set</span></span><a class="headerlink" href="#mascotas.models.Mascota.solicitudadopcion_set" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mascotas.models.</span></span><span class="sig-name descname"><span class="pre">SolicitudAdopcion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mascota</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nombre_adoptante</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apellido_adoptante</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">telefono</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direccion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fecha_solicitud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estado</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.ESTADOS">
+<span class="sig-name descname"><span class="pre">ESTADOS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('pendiente',</span> <span class="pre">'Pendiente'),</span> <span class="pre">('aprobada',</span> <span class="pre">'Aprobada'),</span> <span class="pre">('rechazada',</span> <span class="pre">'Rechazada')]</span></em><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.ESTADOS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.apellido_adoptante">
+<span class="sig-name descname"><span class="pre">apellido_adoptante</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.apellido_adoptante" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.direccion">
+<span class="sig-name descname"><span class="pre">direccion</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.direccion" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.email">
+<span class="sig-name descname"><span class="pre">email</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.email" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.estado">
+<span class="sig-name descname"><span class="pre">estado</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.estado" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.fecha_solicitud">
+<span class="sig-name descname"><span class="pre">fecha_solicitud</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.fecha_solicitud" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.get_estado_display">
+<span class="sig-name descname"><span class="pre">get_estado_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">estado&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.get_estado_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.get_next_by_fecha_solicitud">
+<span class="sig-name descname"><span class="pre">get_next_by_fecha_solicitud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">fecha_solicitud&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.get_next_by_fecha_solicitud" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.get_previous_by_fecha_solicitud">
+<span class="sig-name descname"><span class="pre">get_previous_by_fecha_solicitud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">fecha_solicitud&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.get_previous_by_fecha_solicitud" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.mascota">
+<span class="sig-name descname"><span class="pre">mascota</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.mascota" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.mascota_id">
+<span class="sig-name descname"><span class="pre">mascota_id</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.mascota_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.nombre_adoptante">
+<span class="sig-name descname"><span class="pre">nombre_adoptante</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.nombre_adoptante" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mascotas.models.SolicitudAdopcion.telefono">
+<span class="sig-name descname"><span class="pre">telefono</span></span><a class="headerlink" href="#mascotas.models.SolicitudAdopcion.telefono" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function" id="module-mascotas.views">
+<dt class="sig sig-object py" id="mascotas.views.agregar_mascota_refugio">
+<span class="sig-prename descclassname"><span class="pre">mascotas.views.</span></span><span class="sig-name descname"><span class="pre">agregar_mascota_refugio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.views.agregar_mascota_refugio" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mascotas.views.detalle_mascota">
+<span class="sig-prename descclassname"><span class="pre">mascotas.views.</span></span><span class="sig-name descname"><span class="pre">detalle_mascota</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mascota_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.views.detalle_mascota" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mascotas.views.detalle_solicitud_refugio">
+<span class="sig-prename descclassname"><span class="pre">mascotas.views.</span></span><span class="sig-name descname"><span class="pre">detalle_solicitud_refugio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.views.detalle_solicitud_refugio" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mascotas.views.editar_mascota">
+<span class="sig-prename descclassname"><span class="pre">mascotas.views.</span></span><span class="sig-name descname"><span class="pre">editar_mascota</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.views.editar_mascota" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mascotas.views.eliminar_mascota">
+<span class="sig-prename descclassname"><span class="pre">mascotas.views.</span></span><span class="sig-name descname"><span class="pre">eliminar_mascota</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.views.eliminar_mascota" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mascotas.views.es_refugio">
+<span class="sig-prename descclassname"><span class="pre">mascotas.views.</span></span><span class="sig-name descname"><span class="pre">es_refugio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.views.es_refugio" title="Link to this definition"></a></dt>
+<dd><p>Verifica si el usuario logueado está asociado a un perfil Refugio.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mascotas.views.gestion_solicitudes_refugio">
+<span class="sig-prename descclassname"><span class="pre">mascotas.views.</span></span><span class="sig-name descname"><span class="pre">gestion_solicitudes_refugio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.views.gestion_solicitudes_refugio" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mascotas.views.lista_mascotas_refugio">
+<span class="sig-prename descclassname"><span class="pre">mascotas.views.</span></span><span class="sig-name descname"><span class="pre">lista_mascotas_refugio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.views.lista_mascotas_refugio" title="Link to this definition"></a></dt>
+<dd><p>Muestra la lista de mascotas que pertenecen al refugio del usuario logueado.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mascotas.views.solicitar_adopcion">
+<span class="sig-prename descclassname"><span class="pre">mascotas.views.</span></span><span class="sig-name descname"><span class="pre">solicitar_adopcion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mascota_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mascotas.views.solicitar_adopcion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="../admin_panel/admin_panel.migrations.html" class="btn btn-neutral float-left" title="admin_panel.migrations package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="../seguimiento/index.html" class="btn btn-neutral float-right" title="Módulo Seguimiento" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2025, katerine.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

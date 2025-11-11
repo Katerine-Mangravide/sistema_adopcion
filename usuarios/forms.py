@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .models import Adoptante, Refugio
 
 class RegistroForm(forms.ModelForm):
-    # campos extra para crear el User
+    # campos extra para crear el Useraaa
     username = forms.CharField(max_length=150, label="Usuario")
     password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
     password2 = forms.CharField(widget=forms.PasswordInput, label="Confirmar contraseña")

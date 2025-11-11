@@ -1,6 +1,6 @@
 from django.db import models
 from usuarios.models import Refugio, Veterinario
-from mascotas.models import Mascota  # ajustar si tu app de mascotas tiene otro nombre
+from mascotas.models import Mascota  # ajustar si el modelo Mascotas tiene otro nombre
 
 class Seguimiento(models.Model):
     ESTADOS = [

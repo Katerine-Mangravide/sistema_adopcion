@@ -23,7 +23,7 @@ class Refugio(models.Model):
     telefono = models.CharField(max_length=20)
     email = models.EmailField(unique=True) 
     
-    # Campo para identificar el tipo de usuario (¡CLAVE!)
+    # Campo que identifica el tipo de usuario (¡CLAVE!)
     es_refugio = models.BooleanField(default=True) 
 
     def __str__(self):

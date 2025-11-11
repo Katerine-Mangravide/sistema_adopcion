@@ -5,7 +5,7 @@ from django.contrib.postgres.fields import ArrayField # <-- ¡IMPORTACIÓN CLAVE
 
 # Modelo Mascota
 class Mascota(models.Model):
-    # Opciones para Sexo
+    # Opciones para Sexo de mascotas 
     SEXO_CHOICES = [
         ('M', 'Macho'),
         ('H', 'Hembra'),

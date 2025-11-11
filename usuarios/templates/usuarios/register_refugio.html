@@ -22,10 +22,7 @@
 
             <div class="form-section">
                 <h3>👤 Datos de Acceso y Contacto Principal</h3>
-                <div class="form-group">
-                    {{ form.username.label_tag }}
-                    {{ form.username }}
-                </div>
+
                 <div class="form-group">
                     {{ form.password.label_tag }}
                     {{ form.password }}
@@ -43,13 +40,18 @@
                     {{ form.last_name }}
                 </div>
                 <div class="form-group">
-                    {{ form.email.label_tag }}
+                    <label for="{{ form.email.id_for_label }}">Correo electrónico</label>
                     {{ form.email }}
                 </div>
             </div>
 
             <div class="form-section">
                 <h3>🏢 Datos de la Institución (Refugio)</h3>
+
+                <div class="form-group">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                </div>                
                 <div class="form-group">
                     {{ form.nombre.label_tag }}
                     {{ form.nombre }}

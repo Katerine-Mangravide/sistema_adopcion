@@ -1,13 +1,20 @@
 {% extends "usuarios/base.html" %}
-{% block title %}Mis Seguimientos{% endblock %}
+{% load static %}
+
+{% block title %}📋 Mis Seguimientos{% endblock %}
 
 {% block content %}
-<div class="dashboard-wrapper">
-    <div class="dashboard-container">
-        <h1 class="page-title">📋 Mis Seguimientos</h1>
+<div class="dashboard-container">
+    <div class="header-card">
+        <h1>📋 Mis Seguimientos</h1>
+        <p class="welcome-text">
+            Aquí podés consultar todas las revisiones realizadas o pendientes de tus mascotas adoptadas 🐾
+        </p>
+    </div>
 
-        {% if seguimientos %}
-        <table class="table-dashboard">
+    {% if seguimientos %}
+    <div class="table-card">
+        <table class="data-table">
             <thead>
                 <tr>
                     <th>Mascota</th>
@@ -24,19 +31,127 @@
                 <tr>
                     <td>{{ seguimiento.mascota.nombre }}</td>
                     <td>{{ seguimiento.veterinario.nombre }} {{ seguimiento.veterinario.apellido }}</td>
-                    <td>{{ seguimiento.fecha_revision }}</td>
+                    <td>{{ seguimiento.fecha_revision|date:"d/m/Y" }}</td>
                     <td>{{ seguimiento.hora_revision }}</td>
                     <td>{{ seguimiento.motivo }}</td>
-                    <td>{{ seguimiento.estado }}</td>
-                    <td>{{ seguimiento.observaciones }}</td>
+                    <td>
+                        {% if seguimiento.estado == "Pendiente" %}
+                            <span class="badge badge-warning">Pendiente</span>
+                        {% elif seguimiento.estado == "Realizado" %}
+                            <span class="badge badge-success">Realizado</span>
+                        {% else %}
+                            <span class="badge badge-info">{{ seguimiento.estado }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ seguimiento.observaciones|default:"—" }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        {% else %}
-            <p>No tenés seguimientos pendientes o realizados para tus mascotas adoptadas.</p>
-        {% endif %}
-
     </div>
+    {% else %}
+    <div class="empty-state">
+        <p>🐕 No tenés seguimientos pendientes ni realizados por el momento.</p>
+    </div>
+    {% endif %}
 </div>
+
+<style>
+.dashboard-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 25px;
+    color: #333;
+    animation: fadeIn 0.7s ease-in;
+}
+
+.header-card {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.header-card h1 {
+    color: #2b7a78;
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.welcome-text {
+    color: #555;
+    font-size: 1.1rem;
+}
+
+.table-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    overflow-x: auto;
+    transition: transform 0.2s ease;
+}
+
+.table-card:hover {
+    transform: translateY(-3px);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.data-table th {
+    background-color: #3aafa9;
+    color: white;
+    font-weight: 600;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+.data-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.data-table tr:hover {
+    background-color: #f7fafa;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.badge-warning {
+    background-color: #ffb703;
+}
+
+.badge-success {
+    background-color: #2e8b57;
+}
+
+.badge-info {
+    background-color: #3aafa9;
+}
+
+.empty-state {
+    text-align: center;
+    background-color: #def2f1;
+    padding: 30px;
+    border-radius: 15px;
+    color: #2b7a78;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
 {% endblock %}
